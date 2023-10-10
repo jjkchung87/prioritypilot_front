@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import MainNavbar from './components/MainNavbar'
+import SideNavbar from './components/SideNavbar'
+import ProjectDropdown from './components/ProjectDropdown'
+import ProgressTable from './components/ProgressTable'
+import PollingCountDown from './components/PollingCountDown'
+import MainTaskScreen from './components/MainTaskScreen'
+
+import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <MainNavbar />
+      <div className='user-page'>
+        <SideNavbar />
+        <div className='project-table'>
+          <ProjectDropdown />
+          <div className='status-tables'>
+            <ProgressTable />
+            <PollingCountDown />
+          </div>
+          <MainTaskScreen />
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default App;
