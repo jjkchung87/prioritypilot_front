@@ -1,6 +1,7 @@
 import { Form, Input, Button, Header } from 'semantic-ui-react'
 import './Forms.css'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function LoginForm() {
   const initialState = {
@@ -23,7 +24,7 @@ function LoginForm() {
         Some Image
       </div>
       <Form>
-        <Header className='form-header'>Welcome Back</Header>
+        <Header className='form-header'>Priority Pilot</Header>
         <Form.Field
           id='form-input-control-error-email'
           control={Input}
@@ -46,7 +47,7 @@ function LoginForm() {
           onChange={handleInputChange}
           placeholder='Password'/>
         <Form.Field>
-        <p>Don't have an account? <a href="">Register </a>here.</p>
+        <p>Don't have an account? <Link to="/register">Register</Link> here.</p>
         </Form.Field>
         <Form.Field
           fluid 

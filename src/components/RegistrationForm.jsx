@@ -1,6 +1,7 @@
 import { Form, Input, Button, Checkbox } from 'semantic-ui-react'
 import './Forms.css'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function RegistrationForm() {
   const initialState = {
@@ -67,7 +68,7 @@ function RegistrationForm() {
             <Checkbox label='I agree to the Terms and Conditions' required /> 
           </Form.Field>  
           <Form.Field>
-            <p>Already a member? <a href="">Sign In </a>here.</p>
+            <p>Already a member? <Link to="/register">Register</Link>here.</p>
           </Form.Field>
         </Form.Group>
          <Form.Field

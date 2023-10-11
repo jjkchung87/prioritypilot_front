@@ -1,4 +1,5 @@
 import {Button, Card, Icon} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 function TaskCard() {
     return (
@@ -15,7 +16,7 @@ function TaskCard() {
             <Card.Meta></Card.Meta>
           </Card.Content>
           <Card.Content extra>
-            <a>Al Recomendations</a> <span>Date created</span>
+            <Link>Al Recomendations </Link> <span>Date created</span>
           </Card.Content>
         </Card>
     )
