@@ -1,30 +1,20 @@
+import { useState } from "react"
 
-import { Dropdown } from "semantic-ui-react"
-
-
-const projects = [
-  {key: 'Project 1',
-  text: 'Project 1',
-value: 'Project 1',
-className: 'p1'},
-  {key: 'Project 2',
-  text: 'Project 2',
-value: 'Project 2'},
-  {key: 'Project 3',
-  text: 'Project 3',
-value: 'Project 3',}
-]
+const projects = ['Project1', 'Project 2', 'Project 3', 'Custom Tasks']
 function ProjectDropdown() {
-  
+  const [project, setProject] = useState()
+  const handleSelectProject = (e) => {
+    setProject(p => e.target.value)
+  }
   return (
     <div className="dropdown wrapper">
-      <Dropdown
-        placeholder='Select Project'
-        fluid
-        search
-        selection
-        options={projects}
-      />
+      <select onChange={handleSelectProject} className="select-project">
+            {projects.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+            ))}
+      </select> 
     </div>
     )
   }

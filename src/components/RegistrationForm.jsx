@@ -1,17 +1,26 @@
 import { Form, Input, Button, Checkbox } from 'semantic-ui-react'
 import './Forms.css'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
+
 
 function RegistrationForm() {
+  const navigate = useNavigate()
   const initialState = {
     first_name: "",
     last_name: "",
+    team: "",
+    role: "",
     email: "",
-    password: ""
+    password: "",
+    confirm_password: ""
   }
+  const { currentUser } = useContext(UserContext)
   const [formData, setFormData] = useState(initialState)
-
+  
+  if (currentUser) navigate('/user')
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(data => ({
@@ -41,6 +50,24 @@ function RegistrationForm() {
             onChange={handleInputChange}
             name="last_name"/>
         </Form.Group>
+        <Form.Group widths='equal'>
+          <Form.Field
+            id='form-input-control-team'
+            control={Input}
+            label='Team'
+            placeholder='Your Department'
+            value={formData.team}
+            onChange={handleInputChange}
+            name="team"/>
+          <Form.Field
+            id='form-input-control-role'
+            control={Input}
+            label='Role'
+            placeholder='Role'
+            value={formData.role}
+            onChange={handleInputChange}
+            name="role"/>
+        </Form.Group>
         <Form.Field
           id='form-input-control-error-email'
           control={Input}
@@ -62,13 +89,21 @@ function RegistrationForm() {
           value={formData.password}
           onChange={handleInputChange}
           placeholder='Password'/>
+        <Form.Field
+          id='form-input-control-last-name'
+          control={Input}
+          label='Confirm Password'
+          name="confirm_password"
+          value={formData.confirm_password}
+          onChange={handleInputChange}
+          placeholder='Enter Password Again..'/>
        
         <Form.Group widths='equal'>
           <Form.Field>
             <Checkbox label='I agree to the Terms and Conditions' required /> 
           </Form.Field>  
           <Form.Field>
-            <p>Already a member? <Link to="/register">Register</Link>here.</p>
+            <p>Already a member? <Link to="/">Sign in </Link>here.</p>
           </Form.Field>
         </Form.Group>
          <Form.Field

@@ -15,10 +15,10 @@ function PollingCountDown() {
     console.log(time)
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => getTime(deadline), 1000)
-    return () => clearInterval(interval)
-  }, [])
+  // useEffect(() => {
+  //   const interval = setInterval(() => getTime(deadline), 1000)
+  //   return () => clearInterval(interval)
+  // }, [])
     return (
       <div className="countdown-table wrapper">
         <Header>AI - Polling Count Down</Header>

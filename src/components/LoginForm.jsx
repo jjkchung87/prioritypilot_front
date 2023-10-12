@@ -2,14 +2,21 @@ import { Form, Input, Button, Header } from 'semantic-ui-react'
 import './Forms.css'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
+import { useContext } from 'react'
 
 function LoginForm() {
+  const navigate = useNavigate()
   const initialState = {
     email: "",
     password: ""
   }
   const [formData, setFormData] = useState(initialState)
+  const { currentUser } = useContext(UserContext)
 
+  //check before rendering. if user exists - move to user page
+  if (currentUser) navigate('user')
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(data => ({
