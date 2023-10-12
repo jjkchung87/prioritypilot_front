@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const projects = ['project1', 'project2', 'project3', 'Custom Tasks']
 
-function NewTaskForm({ setFormActive }) {
+function NewTaskForm() {
   const initialState = {
     project: 'Custom Tasks',
     title: '',

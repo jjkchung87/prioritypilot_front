@@ -104,12 +104,13 @@ body {
 /* styling main screen---------------------- */
 .main-screen {
 	margin: 2rem 3rem 3rem 3rem;
+
 }
 
 .tab-pane {
 	display: flex !important;
 	justify-content: center;
-
+	
 }
 
 /*single task card----------------------------*/
