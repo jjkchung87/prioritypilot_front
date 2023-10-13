@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 
 
-function RegistrationForm() {
+function RegistrationForm({ register }) {
   const navigate = useNavigate()
   const initialState = {
     first_name: "",
@@ -17,10 +17,11 @@ function RegistrationForm() {
     password: "",
     confirm_password: ""
   }
+  
   const { currentUser } = useContext(UserContext)
   const [formData, setFormData] = useState(initialState)
+  const [passwordsNotMatch, setPasswordsNotMatch] = useState(false)
   
-  if (currentUser) navigate('/user')
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(data => ({
@@ -28,12 +29,31 @@ function RegistrationForm() {
       [name]: value
     }))
   }
+
+  //Takes current data (if valid) and passes it to register function, navigates to homepage.
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    //check passwords 
+    if (formData.password !== formData.confirm_password) {
+      setPasswordsNotMatch(true)
+    } else {
+      let result = await register(formData)
+      if (result.success) {
+        navigate('/user')
+      } else {
+        setFormData(initialState)
+      }
+    }
+    
+    
+  }
   return (
     <div className="register">
-      <Form>
-        <p>{formData.first_name}</p>
-        <Form.Group widths='equal'>
+      <Form onSubmit={handleSubmit}>
+       
+        <Form.Group widths={'equal'}>
           <Form.Field
+            required
             id='form-input-control-first-name'
             control={Input}
             label='First name'
@@ -42,16 +62,7 @@ function RegistrationForm() {
             onChange={handleInputChange}
             name="first_name"/>
           <Form.Field
-            id='form-input-control-last-name'
-            control={Input}
-            label='Last name'
-            placeholder='Last name'
-            value={formData.last_name}
-            onChange={handleInputChange}
-            name="last_name"/>
-        </Form.Group>
-        <Form.Group widths='equal'>
-          <Form.Field
+            required
             id='form-input-control-team'
             control={Input}
             label='Team'
@@ -59,7 +70,19 @@ function RegistrationForm() {
             value={formData.team}
             onChange={handleInputChange}
             name="team"/>
+        </Form.Group>
+        <Form.Group widths='equal'>
           <Form.Field
+            required
+            id='form-input-control-last-name'
+            control={Input}
+            label='Last name'
+            placeholder='Last name'
+            value={formData.last_name}
+            onChange={handleInputChange}
+            name="last_name"/>
+          <Form.Field
+            required
             id='form-input-control-role'
             control={Input}
             label='Role'
@@ -68,7 +91,10 @@ function RegistrationForm() {
             onChange={handleInputChange}
             name="role"/>
         </Form.Group>
+        <Form.Group widths={'equal'}>
         <Form.Field
+         required
+          type='email'
           id='form-input-control-error-email'
           control={Input}
           label='Email'
@@ -76,28 +102,43 @@ function RegistrationForm() {
           onChange={handleInputChange}
           placeholder='joe@schmoe.com'
           name='email'
-          // error={{
-          //   content: 'Please enter a valid email address',
-          //   pointing: 'below',
-          // }}
           />
         <Form.Field
-          id='form-input-control-last-name'
+          id='form-input-control-photo'
+          control={Input}
+          label='Photo URL'
+          value={formData.url}
+          onChange={handleInputChange}
+          placeholder='https://images.unsplash.com/photo-1566275529824'
+          name='url'
+          />
+        </Form.Group>
+        <Form.Group widths={'equal'}>
+        <Form.Field
+          required
+          type="password"
+          id='form-input-control-password'
           control={Input}
           label='Create Password'
           name="password"
           value={formData.password}
           onChange={handleInputChange}
+          minLength="8"
           placeholder='Password'/>
         <Form.Field
-          id='form-input-control-last-name'
+          required
+          minLength="8"
+          type="password"
+          id='form-input-control-confirm-password'
           control={Input}
           label='Confirm Password'
           name="confirm_password"
           value={formData.confirm_password}
           onChange={handleInputChange}
           placeholder='Enter Password Again..'/>
-       
+
+        </Form.Group>  
+        {passwordsNotMatch && <span className='error-msg'>Entered passwords don't match!</span>}
         <Form.Group widths='equal'>
           <Form.Field>
             <Checkbox label='I agree to the Terms and Conditions' required /> 
@@ -111,7 +152,8 @@ function RegistrationForm() {
           size='large'
           id='form-button-control-public'
           control={Button}
-          content='Register'/>
+          content='Register'
+         />
       </Form>
     </div>
   )

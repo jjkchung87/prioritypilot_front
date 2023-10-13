@@ -9,11 +9,13 @@ body {
 .user-page {
   display: flex;
   background-color: rgb(239, 239, 239);
+  height: 100vh;
 }
 
 .project-table {
   height: fit-content;
   margin-bottom: 10px;
+  width: calc(100vw - 300px)
 }
 
 /* navbar styling ----------------------------*/
@@ -51,8 +53,8 @@ body {
 }
 /* sidebar styling------------------------------------ */
 .sidebar {
-	width: 20%;
-	min-width: 200px;
+	width: 300px;
+	min-width: 300px;
 	height: auto;
 	display: flex;
 	flex-direction: column;
@@ -110,7 +112,6 @@ body {
 .tab-pane {
 	display: flex !important;
 	justify-content: center;
-	
 }
 
 /*single task card----------------------------*/

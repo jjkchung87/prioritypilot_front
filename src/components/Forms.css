@@ -50,7 +50,64 @@ a:hover {
 }
 
 .add-new-task {
-  width: 70%;
+  width: 60%;
   padding: 2rem;
   font-size: 1rem !important;
 }
+
+.add_project {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top:6rem;
+  left:0;
+  background-color: rgba(255,255,255, 0.8)
+}
+
+.project-form {
+  padding: 3rem;
+  position: absolute;
+  z-index: 30;
+  top: 3rem;
+  width: 50%;
+  left: 50%;
+  transform: translateX(-50%); 
+}
+
+.close-project-form {
+  float: right;
+}
+
+.ai-checkbox-field {
+  display: flex;
+  align-items: center;
+}
+
+.ai-checkbox-field input {
+  margin-right: 1rem;
+}
+
+/* add new task form ---------------- */
+
+.edit-task {
+  position: absolute;
+  width: 100%;
+  background-color: rgba(255,255,255, 0.8);
+  z-index: 40;
+  padding: 2rem;
+}
+
+.edit-task-form {
+  position: absolute;
+  width: 60%;
+  padding: 1rem 2rem;
+  font-size: 1rem !important;
+}
+
+.error-msg {
+  color: red;
+  font-size: 1.2rem;
+  vertical-align: top;
+}
+
+

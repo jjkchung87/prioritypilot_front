@@ -4,10 +4,10 @@ import ProgressTable from './ProgressTable'
 import PollingCountDown from './PollingCountDown'
 import MainTaskScreen from './MainTaskScreen'
 
-function UserPage() {
+function UserPage({ logout }) {
   return (
     <div className="user-page">
-       <SideNavbar />
+       <SideNavbar logout={logout}/>
         <div className='project-table'>
           <ProjectDropdown />
           <div className='status-tables'>

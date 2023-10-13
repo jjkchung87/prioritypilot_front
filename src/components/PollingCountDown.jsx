@@ -12,7 +12,6 @@ function PollingCountDown() {
     const time = Date.parse(deadline) - Date.now()
     setMinutes(Math.floor((time/1000/60)%60))
     setSeconds(Math.floor((time/1000)%60))
-    console.log(time)
   }
 
   // useEffect(() => {

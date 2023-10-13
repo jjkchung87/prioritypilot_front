@@ -4,7 +4,7 @@ import NewTaskForm from './NewTaskForm'
 import { useState } from 'react'
 
 const Task1 = {
-  project: "",
+  project: "Test Project",
   title: "Task 1",
   description: "This is task 1",
   date_created: new Date(),
@@ -13,7 +13,7 @@ const Task1 = {
   status: 'In progress'
 }
 const Task2 = {
-  project: "",
+  project: "My Project",
   title: "Task 2",
   description: "This is task 2",
   date_created: new Date(),
@@ -22,7 +22,7 @@ const Task2 = {
   status: 'Not started'
 }
 const Task3 = {
-  project: "",
+  project: "Project 3",
   title: "Task 3",
   description: "This is task 3",
   date_created: new Date(),
@@ -31,13 +31,13 @@ const Task3 = {
   status: 'Completed'
 }
 const Task4 = {
-  project: "",
-  title: "Task 3",
-  description: "This is task 3",
+  project: "Project 4",
+  title: "Task 4",
+  description: "This is task 4",
   date_created: new Date(),
   priority: 'high',
   deadline: new Date(),
-  status: 'Not Started'
+  status: 'Not started'
 }
 
 const myPanes = [
