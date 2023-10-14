@@ -4,30 +4,28 @@ import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import DatePicker from 'react-datepicker'
+import UserApi from '../api'
 import 'react-datepicker/dist/react-datepicker.css'
 
 
 function NewProjectForm({ setShowForm }) {
-  const navigate = useNavigate()
   const past = (date) => new Date() < date;
 
   const initialState = {
-    title: "",
-    deadline: "",
+    project_name: "",
+    end_date: "",
     description: "",
     ai_recommendation: false
   }
   const { currentUser } = useContext(UserContext)
   const [formData, setFormData] = useState(initialState)
-
-  console.log(formData)
   const handleInputChange = (e) => {
     let value;
     let name;
   //saving data for date picker
     if (!e.target) {
       value = e
-      name = 'deadline'
+      name = 'end_date'
   //saving checkbox update
     } else if (e.target.type === 'checkbox') {
       value = e.target.checked
@@ -41,10 +39,24 @@ function NewProjectForm({ setShowForm }) {
       [name]: value
     })) 
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    let data = {...formData, user_id: currentUser.id}
+    try {
+      let result = await UserApi.addProject(data);
+      console.log(result)
+      setShowForm(false)
+      return { success: true };
+    } catch (errors) {
+      console.error("Error adding project. Try again later", errors);
+      return { success: false, errors };
+    }
+  }
+
 
   return (
     <div className="add_project">
-      <Form className='project-form'>
+      <Form className='project-form' onSubmit={handleSubmit}>
         <Button className='close-project-form' icon 
                 onClick={()=>setShowForm(false)}
                 size="tiny">
@@ -57,12 +69,12 @@ function NewProjectForm({ setShowForm }) {
             control={Input}
             label='Title'
             placeholder='Project Title'
-            value={formData.title}
+            value={formData.project_name}
             onChange={handleInputChange}
-            name="title"/>
+            name="project_name"/>
         <Form.Field required>
           <label>Deadline:</label>
-          <DatePicker  name='deadline' filterDate={past} value={!formData.deadline} selected={formData.deadline} onChange={handleInputChange} /> 
+          <DatePicker showTimeSelect="true" placeholderText="Click to select a date" name='end_date' filterDate={past} value={formData.end_date} selected={formData.end_date} onChange={handleInputChange} /> 
         </Form.Field>
         <Form.Field>
           <Form.TextArea required label='Description' name="description" placeholder='Add description...' onChange={handleInputChange} value={formData.description}/>

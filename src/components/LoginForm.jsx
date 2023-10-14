@@ -1,22 +1,25 @@
 import { Form, Input, Button, Header } from 'semantic-ui-react'
 import './Forms.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import { useContext } from 'react'
 
-function LoginForm() {
+function LoginForm({ login }) {
+  const { currentUser } = useContext(UserContext)
   const navigate = useNavigate()
+  useEffect(()=> {
+    if (currentUser) navigate('/my_projects')
+  })
+  
   const initialState = {
     email: "",
     password: ""
   }
   const [formData, setFormData] = useState(initialState)
-  const { currentUser } = useContext(UserContext)
-
-  //check before rendering. if user exists - move to user page
-  if (currentUser) navigate('user')
+  const [error, setError] = useState(false)
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(data => ({
@@ -25,34 +28,46 @@ function LoginForm() {
     }))
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const result = await login(formData)
+    if (result.success) {
+      navigate(navigate('/my_projects'))
+    } else {
+      setError(true)
+      setFormData(initialState)
+    }
+  }
+
   return (
     <div className="login">
       <div className='image-logo'>
         Some Image
       </div>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Header className='form-header'>Priority Pilot</Header>
+        
         <Form.Field
+          required
+          type='email'
           id='form-input-control-error-email'
           control={Input}
           label='Email'
           value={formData.email}
           onChange={handleInputChange}
           placeholder='joe@schmoe.com'
-          name='email'
-          // error={{
-          //   content: 'Please enter a valid email address',
-          //   pointing: 'below',
-          // }}
-          />
+          name='email'/>
         <Form.Field
+          required
+          type='password'
           id='form-input-control-last-name'
           control={Input}
-          label='Create Password'
+          label='Password'
           name="password"
           value={formData.password}
           onChange={handleInputChange}
           placeholder='Password'/>
+          {error && <span className='error-msg'>Invalid credentials</span>}
         <Form.Field>
         <p>Don't have an account? <Link to="/register">Register</Link> here.</p>
         </Form.Field>

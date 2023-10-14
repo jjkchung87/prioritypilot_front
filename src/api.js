@@ -22,6 +22,12 @@ class UserApi {
     }
   }
 
+  // Get the current user
+  static async getCurrentUser(user_id) {
+    let res = await this.request(`users/${user_id}`);
+    return res;
+  }
+
   // Signup for site, returns token, creates a new user in db.
   static async register(data) {
     let res = await this.request("users/signup", data, "post");
@@ -33,9 +39,11 @@ class UserApi {
     let res = await this.request("users/login", data, "post");
     return res.access_token;
   }
+
   // Adds Project to DB
   static async addProject(data) {
-    let res = await this.request(`projects`, data, "post");
+    console.log(data)
+    let res = await this.request("projects", data, "post");
     return res;
 }
 }

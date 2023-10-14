@@ -1,17 +1,22 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { UserContext } from "../context/UserContext"
+import { useNavigate } from "react-router-dom"
 
-const projects = ['Project1', 'Project 2', 'Project 3', 'Custom Tasks']
+
 function ProjectDropdown() {
-  const [project, setProject] = useState()
+  const { currentUser } = useContext(UserContext)
+  const [project, setProject] = useState('Select Project')
+
   const handleSelectProject = (e) => {
-    setProject(p => e.target.value)
+    setProject(e.target.value)
   }
+  console.log(currentUser.projects)
   return (
     <div className="dropdown wrapper">
       <select onChange={handleSelectProject} className="select-project">
-            {projects.map((p) => (
-                <option key={p} value={p}>
-                  {p}
+            {currentUser.projects.map((p) => (
+                <option key={p.id} value={project}>
+                  {p.project_name}
                 </option>
             ))}
       </select> 

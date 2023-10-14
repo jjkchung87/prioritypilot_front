@@ -15,27 +15,30 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [token, setToken] = useLocalStorage("token")
   console.log(token)
-  // useEffect(
-  //   function loadUserInfo() {
-  //     async function getCurrentUser() {
-  //       if (token) {
-  //         try {
-  //           const user = decodeToken(token)
-  //           // put the token on the Api class so it can use it to call the API.
-  //           UserApi.token = token;
-  //           // finds current user info by username from token
-  //           let currUser = await UserApi.getCurrentUser(user.username);
-  //           setCurrentUser(currUser);   
-  //         } catch (err) {
-  //           console.error("App loadUserInfo: problem loading", err);
-  //           setCurrentUser(null);
-  //         }
-  //       }
-  //     }
-  //     getCurrentUser();
-  //     }
-  // , [token]);
 
+  useEffect(
+    function loadUserInfo() {
+      async function getCurrentUser() {
+        if (token) {
+          try {
+            console.log('token:', token)
+            const user = decodeToken(token)
+            console.log('decoded token', user)
+            // put the token on the Api class so it can use it to call the API.
+            UserApi.token = token;
+            // finds current user info by username from token
+            let currUser = await UserApi.getCurrentUser(user.sub);
+            setCurrentUser(currUser.user);   
+          } catch (err) {
+            console.error("App loadUserInfo: problem loading", err);
+            setCurrentUser(null);
+          }
+        }
+      }
+      getCurrentUser();
+      }
+  , [token]);
+  console.log(currentUser)
   /** Handles site-wide signup.*/
   async function register(signupData) {
     try {
@@ -44,6 +47,17 @@ function App() {
       return { success: true };
     } catch (errors) {
       console.error("signup failed", errors);
+      return { success: false, errors };
+    }
+  }
+  /** Handles site-wide login.*/
+  async function login(data) {
+    try {
+      let token = await UserApi.login(data);
+      setToken(token);
+      return { success: true  };
+    } catch (errors) {
+      console.error("Invalid Credentials", errors);
       return { success: false, errors };
     }
   }
@@ -58,11 +72,11 @@ function App() {
   return (
     <>
       <UserContext.Provider value={{ currentUser }}>
-        <MainNavbar currentUser={currentUser}/>
+        <MainNavbar />
         <Routes>
-          <Route path='/' element={<LoginForm />} />
+          <Route path='/' element={<LoginForm login={login}/>} />
           <Route path='/register' element={<RegistrationForm register={register}/>} />
-          <Route path='/user' element={<UserPage logout={logout} />} />
+          <Route path='/my_projects' element={<UserPage logout={logout} />} />
         </Routes> 
       </UserContext.Provider>
     </>

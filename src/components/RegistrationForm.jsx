@@ -1,13 +1,17 @@
 import { Form, Input, Button, Checkbox } from 'semantic-ui-react'
 import './Forms.css'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 
-
 function RegistrationForm({ register }) {
+  const { currentUser } = useContext(UserContext)
   const navigate = useNavigate()
+  useEffect(()=> {
+    if (currentUser) navigate('/my_projects')
+  })
+  
   const initialState = {
     first_name: "",
     last_name: "",
@@ -18,7 +22,6 @@ function RegistrationForm({ register }) {
     confirm_password: ""
   }
   
-  const { currentUser } = useContext(UserContext)
   const [formData, setFormData] = useState(initialState)
   const [passwordsNotMatch, setPasswordsNotMatch] = useState(false)
   
@@ -39,7 +42,7 @@ function RegistrationForm({ register }) {
     } else {
       let result = await register(formData)
       if (result.success) {
-        navigate('/user')
+        navigate('/my_projects')
       } else {
         setFormData(initialState)
       }
