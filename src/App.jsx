@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
+import { ProjectContext } from './context/ProjectContext'
 import MainNavbar from './components/MainNavbar'
 import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
@@ -13,9 +14,9 @@ import './App.css'
 function App() {
   const navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState(null)
+  const [currentProject, setCurrentProject] = useState('Select Project')
   const [token, setToken] = useLocalStorage("token")
-  console.log(token)
-
+  
   useEffect(
     function loadUserInfo() {
       async function getCurrentUser() {
@@ -28,7 +29,7 @@ function App() {
             UserApi.token = token;
             // finds current user info by username from token
             let currUser = await UserApi.getCurrentUser(user.sub);
-            setCurrentUser(currUser.user);   
+            setCurrentUser(currUser.user);  
           } catch (err) {
             console.error("App loadUserInfo: problem loading", err);
             setCurrentUser(null);
@@ -72,12 +73,14 @@ function App() {
   return (
     <>
       <UserContext.Provider value={{ currentUser }}>
+      <ProjectContext.Provider value={{ currentProject, setCurrentProject }}>
         <MainNavbar />
         <Routes>
           <Route path='/' element={<LoginForm login={login}/>} />
           <Route path='/register' element={<RegistrationForm register={register}/>} />
           <Route path='/my_projects' element={<UserPage logout={logout} />} />
         </Routes> 
+      </ProjectContext.Provider>
       </UserContext.Provider>
     </>
   )

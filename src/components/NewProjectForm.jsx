@@ -1,11 +1,11 @@
 import { Form, Input, Button, Icon } from 'semantic-ui-react'
 import './Forms.css'
 import { useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import DatePicker from 'react-datepicker'
 import UserApi from '../api'
 import 'react-datepicker/dist/react-datepicker.css'
+import { ProjectContext } from '../context/ProjectContext'
 
 
 function NewProjectForm({ setShowForm }) {
@@ -18,6 +18,8 @@ function NewProjectForm({ setShowForm }) {
     ai_recommendation: false
   }
   const { currentUser } = useContext(UserContext)
+  const { setCurrentProject } = useContext(ProjectContext)
+
   const [formData, setFormData] = useState(initialState)
   const handleInputChange = (e) => {
     let value;
@@ -43,16 +45,16 @@ function NewProjectForm({ setShowForm }) {
     e.preventDefault()
     let data = {...formData, user_id: currentUser.id}
     try {
-      let result = await UserApi.addProject(data);
-      console.log(result)
+      await UserApi.addProject(data);
       setShowForm(false)
+      setCurrentProject(formData.project_name)
       return { success: true };
     } catch (errors) {
       console.error("Error adding project. Try again later", errors);
       return { success: false, errors };
     }
+    
   }
-
 
   return (
     <div className="add_project">
@@ -82,7 +84,6 @@ function NewProjectForm({ setShowForm }) {
         <Form.Field className='ai-checkbox-field'>
           <input name="ai_recommendation" type='checkbox' checked={formData.ai_recommendation} onChange={handleInputChange}/> <label>Create Project with AI</label>   
         </Form.Field>
-        
         <Form.Field
           fluid 
           size='large'

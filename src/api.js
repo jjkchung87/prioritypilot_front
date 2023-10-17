@@ -42,10 +42,23 @@ class UserApi {
 
   // Adds Project to DB
   static async addProject(data) {
-    console.log(data)
     let res = await this.request("projects", data, "post");
     return res;
-}
+  }
+
+  // Adds Task to DB
+  static async addTask(data, project_id) {
+    console.log(data)
+    let res = await this.request(`projects/${project_id}/task`, data, "post");
+    return res;
+  }
+
+  // Edit Task to DB
+  static async editTask(data, project_id, task_id) {
+    console.log(data)
+    let res = await this.request(`projects/${project_id}/task/${task_id}`, data, "patch");
+    return res;
+  }
 }
 
 export default UserApi

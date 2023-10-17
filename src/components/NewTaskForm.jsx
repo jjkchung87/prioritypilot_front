@@ -1,18 +1,22 @@
 import { Form,Button, Header } from 'semantic-ui-react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { UserContext } from '../context/UserContext'
+import { ProjectContext } from '../context/ProjectContext'
+import UserApi from '../api'
 
-const projects = ['project1', 'project2', 'project3', 'Custom Tasks']
 
 function NewTaskForm() {
   const initialState = {
-    project: 'Custom Tasks',
+    project: '',
     title: '',
     description: '',
     deadline: '',
-    priority: 'low'
+    priority: 'Low'
   }
+  const { currentUser } = useContext(UserContext)
+  const { currentProject, setCurrentProject } = useContext(ProjectContext)
 
   const [formData, setFormData] = useState(initialState)
   const [saved, setSaved] = useState(false)
@@ -31,11 +35,17 @@ function NewTaskForm() {
         ...formData, 
         [name]: value
       })) 
+      if (name === "project") setCurrentProject(formData.project)
     }
+
  }
 
- const saveNewTask = (e) => {
-   console.log(formData)
+ const saveNewTask = async(e) => {
+   e.preventDefault()
+   let chosenProject = currentUser.projects.filter(p => p.project_name === formData.project)
+   let projectId = chosenProject[0].id
+   let data = {...formData, user_id: currentUser.id}
+   await UserApi.addTask(data, projectId)
    setFormData(initialState)
    setSaved(true)
  }
@@ -48,9 +58,10 @@ function NewTaskForm() {
         <Form.Field>
           <label>Project Title</label>
           <select onChange={handleInputChange} name="project">
-            {projects.map((project) => (
-                <option key={project}>
-                  {project}
+            <option value={currentProject}>{currentProject}</option>
+            {currentUser.projects.filter(p => p.project_name !== currentProject).map((p) => (
+                <option key={p.id} value={p.project_name}>
+                  {p.project_name}
                 </option>
             ))}
           </select> 
@@ -63,17 +74,17 @@ function NewTaskForm() {
       <Form.Group inline >
         <label>Priority: </label>
         <Form.Field>
-        Low <input name='priority' type="radio" value="low" checked={formData.priority === 'low'} onChange={handleInputChange}/>
+        Low <input name='priority' type="radio" value="Low" checked={formData.priority === 'Low'} onChange={handleInputChange}/>
         </Form.Field>
         <Form.Field>
-        Medium <input name='priority' type="radio" value="medium" checked={formData.priority === 'medium'} onChange={handleInputChange}/>
+        Medium <input name='priority' type="radio" value="Medium" checked={formData.priority === 'Medium'} onChange={handleInputChange}/>
         </Form.Field>
         <Form.Field>
-        High <input name='priority' type="radio" value="high" checked={formData.priority === 'high'} onChange={handleInputChange}/>
+        High <input name='priority' type="radio" value="High" checked={formData.priority === 'High'} onChange={handleInputChange}/>
         </Form.Field>
          
         <label>Deadline:</label>
-        <DatePicker name='deadline' filterDate={past} value={formData.deadline} selected={formData.deadline} onChange={handleInputChange} /> 
+        <DatePicker name='deadline' showTimeSelect filterDate={past} value={formData.deadline} selected={formData.deadline} onChange={handleInputChange} /> 
       </Form.Group>
       <Form.TextArea required label='Description' name="description" placeholder='Your task...' onChange={handleInputChange} value={formData.description}/>
       <Button fluid type='submit'>Save Task</Button>
