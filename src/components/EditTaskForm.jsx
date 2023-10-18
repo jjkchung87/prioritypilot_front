@@ -1,25 +1,33 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Form, Icon, Button } from "semantic-ui-react";
 import DatePicker from 'react-datepicker'
+import { ProjectsContext } from "../context/ProjectContext";
+import UserApi from "../api";
 
-function EditTaskForm({ task, setShowForm }) {
+function EditTaskForm({ task, setShowForm, addUpdates, tasks }) {
+    const { projects } = useContext(ProjectsContext)
     const initialState = {
-      project: task.project,
-      title: task.title,
+      project_id: task.project_id,
+      task_name: task.task_name,
       description: task.description,
-      deadline: task.deadline,
-      priority: task.priority
+      end_date:'',
+      priority: task.priority,
+      user_id: task.user_id,
+      status: task.status,
+      id: task.id
     }
-  
     const [formData, setFormData] = useState(initialState)
     const past = (date) => new Date() < date;
-  
+
+    console.log('editedFormDtat', formData)
+    console.log('tasks', tasks)
+    
     const handleInputChange = (e) => {
       //saving data for date picker
       if (!e.target) {
         setFormData(data => ({
           ...formData, 
-          deadline: e
+          end_date: e
         }))
       } else {
         const { name, value } = e.target
@@ -30,9 +38,10 @@ function EditTaskForm({ task, setShowForm }) {
       }
    }
   
-   const saveUpdates = (e) => {
-     console.log(formData)
-     setFormData(initialState)
+   const saveUpdates = async (e) => {
+    e.preventDefault()
+    addUpdates(formData)
+    setShowForm(false)
    }
    return (
     <div className="edit-task">
@@ -42,26 +51,26 @@ function EditTaskForm({ task, setShowForm }) {
           <Icon name="close"></Icon>
         </Button>
         <h3>Edit Task</h3>
-        <h4>{task.project}</h4>
+        <h4 className="project-name">{projects.filter(p => p.id === task.project_id)[0].project_name}</h4>
         <Form.Field>
           <label>Task Title</label>
-          <input required placeholder="Title" name='title' value={formData.title} onChange={handleInputChange}/>  
+          <input required className="task-name" name='task_name' value={formData.task_name} onChange={handleInputChange}/>  
         </Form.Field>
         <Form.Group inline >
           <label>Priority: </label>
           <Form.Field>
-          Low <input name='priority' type="radio" value="low" checked={formData.priority === 'low'} onChange={handleInputChange}/>
+          Low <input name='priority' type="radio" value="Low" checked={formData.priority === 'Low'} onChange={handleInputChange}/>
           </Form.Field>
           <Form.Field>
-          Medium <input name='priority' type="radio" value="medium" checked={formData.priority === 'medium'} onChange={handleInputChange}/>
+          Medium <input name='priority' type="radio" value="Medium" checked={formData.priority === 'Medium'} onChange={handleInputChange}/>
           </Form.Field>
           <Form.Field>
-          High <input name='priority' type="radio" value="high" checked={formData.priority === 'high'} onChange={handleInputChange}/>
+          High <input name='priority' type="radio" value="High" checked={formData.priority === 'High'} onChange={handleInputChange}/>
           </Form.Field>
           <label>Deadline:</label>
-          <DatePicker name='deadline' filterDate={past} value={formData.deadline} selected={formData.deadline} onChange={handleInputChange} /> 
+          <DatePicker name='end_date' showTimeSelect filterDate={past} value={formData.end_date} selected={formData.end_date} onChange={handleInputChange} /> 
         </Form.Group>
-        <Form.TextArea required label='Description' name="description" placeholder='Your task...' onChange={handleInputChange} value={formData.description}/>
+        <Form.TextArea required label='Description' name="description" onChange={handleInputChange} value={formData.description}/>
         <Button fluid type='submit'>Save Updates</Button>
       </Form >
     </div>

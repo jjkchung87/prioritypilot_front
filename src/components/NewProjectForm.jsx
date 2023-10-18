@@ -6,9 +6,10 @@ import DatePicker from 'react-datepicker'
 import UserApi from '../api'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
-
+import Spinner from './Spinner'
 
 function NewProjectForm({ setShowForm }) {
+ 
   const past = (date) => new Date() < date;
   const initialState = {
     project_name: "",
@@ -17,9 +18,11 @@ function NewProjectForm({ setShowForm }) {
     ai_recommendation: false
   }
   const { currentUser } = useContext(UserContext)
-  const { setCurrentProject } = useContext(ProjectContext)
+  const { currentProject, setCurrentProject } = useContext(ProjectContext)
   const { setProjects } = useContext(ProjectsContext)
   const [formData, setFormData] = useState(initialState)
+  const [loading, setLoading] = useState(false)
+
   const handleInputChange = (e) => {
     let value;
     let name;
@@ -42,20 +45,24 @@ function NewProjectForm({ setShowForm }) {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     let data = {...formData, user_id: currentUser.id}
     try {
       let res = await UserApi.addProject(data);
       setShowForm(false)
       setCurrentProject(res.project)
       setProjects(projects => [...projects, res.project])
+      setLoading(false)
       return { success: true };
     } catch (errors) {
       console.error("Error adding project. Try again later", errors);
       return { success: false, errors };
     }
   }
+
   return (
     <div className="add_project">
+      {loading ? <Spinner /> :
       <Form className='project-form' onSubmit={handleSubmit}>
         <Button className='close-project-form' icon 
                 onClick={()=>setShowForm(false)}
@@ -88,7 +95,7 @@ function NewProjectForm({ setShowForm }) {
           id='form-button-control-public'
           control={Button}
           content='Create Project'/>
-      </Form>
+      </Form>}
     </div>
   )
 }

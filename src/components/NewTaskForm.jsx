@@ -13,8 +13,10 @@ function NewTaskForm() {
   const { currentUser } = useContext(UserContext)
   const { currentProject, setCurrentProject } = useContext(ProjectContext)
   const { projects, setProjects } = useContext(ProjectsContext)
+
+  let initialProject = currentProject ? currentProject.project_name : 'Select Project' 
   const initialState = {
-    project: currentProject.project_name,
+    project: initialProject,
     title: '',
     description: '',
     deadline: '',
@@ -62,7 +64,7 @@ function NewTaskForm() {
       <Form.Group widths={'equal'}>
         <Form.Field>
           <label>Project Title</label>
-          <select onChange={handleInputChange}  name='project'>
+          <select onChange={handleInputChange}  name='project' className='select'>
             {!currentProject ? 
               <>
                 <option value='Select Project'>Select Project</option>

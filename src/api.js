@@ -21,6 +21,8 @@ class UserApi {
       throw Array.isArray(message) ? message : [message];
     }
   }
+
+  
   // Get the current user
   static async getCurrentUser(user_id) {
     let res = await this.request(`users/${user_id}`);

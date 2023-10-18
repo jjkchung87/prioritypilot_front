@@ -15,8 +15,13 @@ function TaskCard({ task, setTasks, tasks }) {
     let list = tasks.map(item => { if(item.id === id){item.status=status}return item})
     setTasks(list)
   }
+  const addUpdates = async (data) => {
+    let result = await UserApi.editTask(data, task.project_id, task.id)
+    let list = tasks.map(item => { if(item.id === task.id){item = data}return item})
+    setTasks(list)
+  }
     return (
-      <>{showEditTask && <EditTaskForm task={task} setTasks={setTasks} setShowForm={setShowEditTask}/>}
+      <>{showEditTask && <EditTaskForm task={task} addUpdates={addUpdates} setShowForm={setShowEditTask} tasks={tasks}/>}
         <Card raised className='task-card'>
           <Card.Content>
             <div className='card-icons'>
@@ -26,9 +31,9 @@ function TaskCard({ task, setTasks, tasks }) {
               <Button size="tiny" icon onClick={()=>setShowEditTask(true)}><Icon name="edit"/></Button>}
               <Button size="tiny" icon><Icon name="delete"/></Button>
             </div>
-            <Card.Header>{task.task_name}</Card.Header>
+            <Card.Header className='task-name'>{task.task_name}</Card.Header>
             <Card.Meta>Priority: {task.priority.toUpperCase()}</Card.Meta>
-            <Card.Meta>Deadline: {task.end_date}</Card.Meta>
+            <Card.Meta>Deadline: {task.end_date.toString()}</Card.Meta>
             <div className='card-icons'>
               {currentStatus === "In Progress" && <> <Icon name="clock" color='green' className="in-progress-icon"/>In Progress </>}
               {currentStatus === "Complete" && <> <Icon name="check circle" color='green' className='completed'/>Completed </>}

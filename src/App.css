@@ -81,7 +81,8 @@ body {
 	border-radius: 10px;
 	border: none;
 	font-size: 1.3rem;
-	box-shadow: 1px 1px 3px grey
+	box-shadow: 1px 1px 3px grey;
+	text-transform: capitalize;
 }
 
 
@@ -110,7 +111,6 @@ body {
 	margin: 2rem 3rem 3rem 3rem;
 
 }
-
 .tab-pane {
 	display: flex !important;
 	justify-content: center;
@@ -118,12 +118,18 @@ body {
 
 /*single task card----------------------------*/
 .card-icons {
-	float: right;
+  float: right;
 }
 .task-card {
-	padding: 1.2rem !important;
+  padding: 1.2rem !important;
 }
-.created-at {
-	float: right;
-	
+.created-at { 
+  float: right;
 }
+
+.task-name {
+  text-transform:capitalize;
+}
+
+
+

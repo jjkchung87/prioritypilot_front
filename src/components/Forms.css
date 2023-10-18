@@ -55,6 +55,8 @@ a:hover {
   font-size: 1rem !important;
 }
 
+/* project form styling ----------------------------------------------- */
+
 .add_project {
   position: absolute;
   width: 100%;
@@ -64,7 +66,7 @@ a:hover {
   background-color: rgba(255,255,255, 0.8)
 }
 
-.project-form {
+.project-form, .spinner {
   padding: 3rem;
   position: absolute;
   z-index: 30;
@@ -72,6 +74,28 @@ a:hover {
   width: 50%;
   left: 50%;
   transform: translateX(-50%); 
+}
+.spinner {
+  color: grey;
+  text-align: center;
+  box-shadow: 2px 2px 8px gray;
+  background-color: rgba(255,255,255, 0.8);
+  border-radius: 10px;
+  height: fit-content;
+
+}
+.spinner img {
+  margin-top: 50px;
+  animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
 
 .close-project-form {
@@ -89,6 +113,9 @@ a:hover {
 
 /* add new task form ---------------- */
 
+.select {
+  text-transform: capitalize;
+}
 .edit-task {
   position: absolute;
   width: 100%;
@@ -102,6 +129,10 @@ a:hover {
   width: 60%;
   padding: 1rem 2rem;
   font-size: 1rem !important;
+}
+
+.project-name {
+  text-transform: capitalize;
 }
 
 .error-msg {
