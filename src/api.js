@@ -21,7 +21,6 @@ class UserApi {
       throw Array.isArray(message) ? message : [message];
     }
   }
-
   // Get the current user
   static async getCurrentUser(user_id) {
     let res = await this.request(`users/${user_id}`);
@@ -55,7 +54,7 @@ class UserApi {
 
   // Edit Task to DB
   static async editTask(data, project_id, task_id) {
-    console.log(data)
+    console.log('print new task', data)
     let res = await this.request(`projects/${project_id}/task/${task_id}`, data, "patch");
     return res;
   }

@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
 import UserApi from '../api'
+import {v4 as uuid} from 'uuid';
 
 function MainTaskScreen() {
   const { currentUser } = useContext(UserContext)
@@ -13,7 +14,6 @@ function MainTaskScreen() {
   const [ userTasks, setUserTasks ] = useState([])
   const [ spinner, setSpinner ] = useState(false)
 
-  
   useEffect(
     function getAllTasks() {
       if (currentUser) {
@@ -25,7 +25,7 @@ function MainTaskScreen() {
         if (currentProject === 'Select Project' || !currentProject) {
           myTasks = res.tasks
         } else {
-          //if currentProject selected - show task for that project
+          //if currentProject selected - show tasks for that project
           myTasks = currentProject.tasks
         }
         setUserTasks(t => t = [...myTasks])
@@ -36,22 +36,21 @@ function MainTaskScreen() {
     }
   }, [currentProject, projects, currentUser])
 
-
   const myPanes = [
     { menuItem: 'All Tasks', render: () => <Tab.Pane className='tab-pane'>
-      { userTasks.length > 0 ?
+      { userTasks.filter(task => task.status !== 'Complete').length > 0 ?
         <Card.Group itemsPerRow={2}>
-          {userTasks.map(task => <TaskCard key={task.id} task={task} setTasks={setUserTasks}/>)}
+          {userTasks.filter(task => task.status !== 'Complete').map(task => <TaskCard key={uuid()} task={task} setTasks={setUserTasks} tasks={userTasks}/>)}
         </Card.Group> :
         <Header>You do not have any tasks.</Header> }
         </Tab.Pane> },
     { menuItem: 'Today', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
     { menuItem: 'This Week', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> }, 
     { menuItem: 'Completed Tasks', render: () => <Tab.Pane>
-      { userTasks.length > 0 ?
-      <Card.Group itemsPerRow={2}>
-        {userTasks.map(task => <TaskCard key={task.id} task={task}/>)}
-      </Card.Group> :
+      {userTasks.filter(task => task.status === 'Complete').length > 0 ?
+        <Card.Group itemsPerRow={2}>
+          {userTasks.filter(task => task.status === 'Complete').map(task => <TaskCard key={uuid()} task={task}/>)}
+        </Card.Group> :
       <Header>You have not completed any tasks.</Header> }
       </Tab.Pane> }, 
     { menuItem: '+Add New Task', render: () => (

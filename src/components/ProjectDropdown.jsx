@@ -24,7 +24,6 @@ function ProjectDropdown() {
           {projects.filter(p => p.project_name !== currentProject.project_name).map(p => <option key={p.id} value={p.project_name}>{p.project_name}</option>)}
         </>}
       </select> 
-      <p>select-project: {currentProject && currentProject.project_name}</p>
     </div>
     )
   }
