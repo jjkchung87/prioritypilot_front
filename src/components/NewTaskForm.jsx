@@ -3,7 +3,7 @@ import { useContext, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { UserContext } from '../context/UserContext'
-import { ProjectContext } from '../context/ProjectContext'
+import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
 import UserApi from '../api'
 
 
@@ -17,6 +17,7 @@ function NewTaskForm() {
   }
   const { currentUser } = useContext(UserContext)
   const { currentProject, setCurrentProject } = useContext(ProjectContext)
+  const { projects, setProjects } = useContext(ProjectsContext)
 
   const [formData, setFormData] = useState(initialState)
   const [saved, setSaved] = useState(false)
@@ -34,21 +35,26 @@ function NewTaskForm() {
       setFormData(data => ({
         ...formData, 
         [name]: value
-      })) 
-      if (name === "project") setCurrentProject(formData.project)
+      }))
+      if (name === 'project') {
+        let current = projects.filter(p => p.project_name === value)[0]
+        setCurrentProject(current)
+      }
     }
-
- }
+    console.log('form data', formData)
+  }
 
  const saveNewTask = async(e) => {
    e.preventDefault()
-   let chosenProject = currentUser.projects.filter(p => p.project_name === formData.project)
-   let projectId = chosenProject[0].id
    let data = {...formData, user_id: currentUser.id}
-   await UserApi.addTask(data, projectId)
+   let res = await UserApi.addTask(data, currentProject.id)
+   console.log('saved task', res)
    setFormData(initialState)
+   setCurrentProject(p => ({...p, tasks: [...p.tasks, res.task]}))
+   setProjects(p => [...p, ])
    setSaved(true)
  }
+ console.log('projects for tasks', projects)
  return (
     <>
     {!saved ?
@@ -57,14 +63,18 @@ function NewTaskForm() {
       <Form.Group widths={'equal'}>
         <Form.Field>
           <label>Project Title</label>
-          <select onChange={handleInputChange} name="project">
-            <option value={currentProject}>{currentProject}</option>
-            {currentUser.projects.filter(p => p.project_name !== currentProject).map((p) => (
-                <option key={p.id} value={p.project_name}>
-                  {p.project_name}
-                </option>
-            ))}
+          <select onChange={handleInputChange} className="select-project" name='project'>
+            {!currentProject ? 
+              <>
+                <option value='Select Project'>Select Project</option>
+                {projects && projects.map(p => <option key={p.id} value={p.project_name}>{p.project_name}</option>)}
+              </> :
+              <>
+                <option value={currentProject.project_name}>{currentProject.project_name}</option> 
+                {projects.filter(p => p.project_name !== currentProject.project_name).map(p => <option key={p.id} value={p.project_name}>{p.project_name}</option>)}
+              </>}
           </select> 
+      <p>select-project: {currentProject && currentProject.project_name}</p>
         </Form.Field>
         <Form.Field>
           <label>Task Title</label>

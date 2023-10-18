@@ -59,6 +59,20 @@ class UserApi {
     let res = await this.request(`projects/${project_id}/task/${task_id}`, data, "patch");
     return res;
   }
+
+   // Get all tasks for user
+   static async getUsersTasks(user_id) {
+    let res = await this.request(`users/${user_id}/tasks`);
+    return res;
+
+  }
+
+   // Get all tasks for project
+   static async getProjectTasks(project_id) {
+    let res = await this.request(`projects/${project_id}/tasks"`);
+    return res;
+  }
+  
 }
 
 export default UserApi

@@ -5,12 +5,11 @@ import { UserContext } from '../context/UserContext'
 import DatePicker from 'react-datepicker'
 import UserApi from '../api'
 import 'react-datepicker/dist/react-datepicker.css'
-import { ProjectContext } from '../context/ProjectContext'
+import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
 
 
 function NewProjectForm({ setShowForm }) {
   const past = (date) => new Date() < date;
-
   const initialState = {
     project_name: "",
     end_date: "",
@@ -19,7 +18,7 @@ function NewProjectForm({ setShowForm }) {
   }
   const { currentUser } = useContext(UserContext)
   const { setCurrentProject } = useContext(ProjectContext)
-
+  const { setProjects } = useContext(ProjectsContext)
   const [formData, setFormData] = useState(initialState)
   const handleInputChange = (e) => {
     let value;
@@ -45,17 +44,16 @@ function NewProjectForm({ setShowForm }) {
     e.preventDefault()
     let data = {...formData, user_id: currentUser.id}
     try {
-      await UserApi.addProject(data);
+      let res = await UserApi.addProject(data);
       setShowForm(false)
-      setCurrentProject(formData.project_name)
+      setCurrentProject(res.project)
+      setProjects(projects => [...projects, res.project])
       return { success: true };
     } catch (errors) {
       console.error("Error adding project. Try again later", errors);
       return { success: false, errors };
     }
-    
   }
-
   return (
     <div className="add_project">
       <Form className='project-form' onSubmit={handleSubmit}>

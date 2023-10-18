@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
-import { ProjectContext } from './context/ProjectContext'
+import { ProjectContext , ProjectsContext } from './context/ProjectContext'
 import MainNavbar from './components/MainNavbar'
 import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
@@ -14,22 +14,22 @@ import './App.css'
 function App() {
   const navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState(null)
-  const [currentProject, setCurrentProject] = useState('Select Project')
+  const [projects, setProjects] = useState(null)
+  const [currentProject, setCurrentProject] = useState(null)
   const [token, setToken] = useLocalStorage("token")
-  
+
   useEffect(
     function loadUserInfo() {
       async function getCurrentUser() {
         if (token) {
           try {
-            console.log('token:', token)
             const user = decodeToken(token)
-            console.log('decoded token', user)
             // put the token on the Api class so it can use it to call the API.
             UserApi.token = token;
             // finds current user info by username from token
             let currUser = await UserApi.getCurrentUser(user.sub);
             setCurrentUser(currUser.user);  
+            setProjects(currUser.user.projects)
           } catch (err) {
             console.error("App loadUserInfo: problem loading", err);
             setCurrentUser(null);
@@ -39,7 +39,8 @@ function App() {
       getCurrentUser();
       }
   , [token]);
-  console.log(currentUser)
+
+
   /** Handles site-wide signup.*/
   async function register(signupData) {
     try {
@@ -51,6 +52,7 @@ function App() {
       return { success: false, errors };
     }
   }
+
   /** Handles site-wide login.*/
   async function login(data) {
     try {
@@ -66,6 +68,8 @@ function App() {
   /** Handles site-wide logout*/ 
   async function logout() {
     setCurrentUser(null);
+    setCurrentProject(null);
+    setProjects(null);
     setToken(null);
     navigate('/')
   }
@@ -74,12 +78,14 @@ function App() {
     <>
       <UserContext.Provider value={{ currentUser }}>
       <ProjectContext.Provider value={{ currentProject, setCurrentProject }}>
+      <ProjectsContext.Provider value={{ projects, setProjects }}>
         <MainNavbar />
         <Routes>
           <Route path='/' element={<LoginForm login={login}/>} />
           <Route path='/register' element={<RegistrationForm register={register}/>} />
           <Route path='/my_projects' element={<UserPage logout={logout} />} />
         </Routes> 
+      </ProjectsContext.Provider>
       </ProjectContext.Provider>
       </UserContext.Provider>
     </>

@@ -32,7 +32,7 @@ function TaskCard({ task, setTasks }) {
     setCurrentTask(result.task)
   }
     return (
-      <>{showEditTask && <EditTaskForm task={task} setShowForm={setShowEditTask}/>}
+      <>{showEditTask && <EditTaskForm task={task} setTasks={setTasks} setShowForm={setShowEditTask}/>}
         <Card raised className='task-card'>
           <Card.Content>
             <div className='card-icons'>
@@ -56,6 +56,7 @@ function TaskCard({ task, setTasks }) {
             </div>
             <Card.Header>{currentTask.task_name}</Card.Header>
             <Card.Description>{currentTask.description}</Card.Description>
+            <Card.Description>{currentTask.project_id}</Card.Description>
             <Card.Meta></Card.Meta>
           </Card.Content>
           <Card.Content extra>
