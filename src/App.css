@@ -99,6 +99,13 @@ body {
 	background-color: whitesmoke
 }
 
+.time {
+  font-size: 2.5rem;
+  padding: 1rem;
+  font-weight: 700;
+  color: rgb(74, 74, 74)
+}
+
 .status-tables span {
 	font-size: 3rem;
 	color: gray;
