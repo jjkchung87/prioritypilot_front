@@ -2,10 +2,10 @@ import { useContext, useState } from "react";
 import { Form, Icon, Button } from "semantic-ui-react";
 import DatePicker from 'react-datepicker'
 import { ProjectsContext } from "../context/ProjectContext";
-import UserApi from "../api";
 
 function EditTaskForm({ task, setShowForm, addUpdates, tasks }) {
     const { projects } = useContext(ProjectsContext)
+
     const initialState = {
       project_id: task.project_id,
       task_name: task.task_name,
@@ -37,7 +37,7 @@ function EditTaskForm({ task, setShowForm, addUpdates, tasks }) {
         })) 
       }
    }
-  
+   //handles edit form submit
    const saveUpdates = async (e) => {
     e.preventDefault()
     addUpdates(formData)
@@ -74,7 +74,7 @@ function EditTaskForm({ task, setShowForm, addUpdates, tasks }) {
         <Button fluid type='submit'>Save Updates</Button>
       </Form >
     </div>
-    )
-  }
+  )
+}
   
-  export default EditTaskForm
+export default EditTaskForm

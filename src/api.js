@@ -22,7 +22,6 @@ class UserApi {
     }
   }
 
-  
   // Get the current user
   static async getCurrentUser(user_id) {
     let res = await this.request(`users/${user_id}`);
@@ -58,6 +57,13 @@ class UserApi {
   static async editTask(data, project_id, task_id) {
     console.log('print new task', data)
     let res = await this.request(`projects/${project_id}/task/${task_id}`, data, "patch");
+    return res;
+  }
+
+  // Delete Task by ID
+  static async deleteTask(task_id) {
+    console.log(task_id)
+    let res = await this.request(`tasks/${task_id}`, task_id, "delete");
     return res;
   }
 

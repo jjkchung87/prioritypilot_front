@@ -1,4 +1,4 @@
-import { Tab, Card, Header } from 'semantic-ui-react'
+import { Tab, Header } from 'semantic-ui-react'
 import TaskCard from './TaskCard'
 import NewTaskForm from './NewTaskForm'
 import { useContext, useEffect, useState } from 'react'
@@ -14,7 +14,8 @@ function MainTaskScreen() {
   const { projects } = useContext(ProjectsContext)
   const [ userTasks, setUserTasks ] = useState([])
   const [ spinner, setSpinner ] = useState(false)
-
+  
+  //finds all tasks for user on each render
   useEffect(
     function getAllTasks() {
       if (currentUser) {
@@ -36,27 +37,42 @@ function MainTaskScreen() {
       setSpinner(true)
     }
   }, [currentProject, projects, currentUser])
+  
+  //delete task from db and local storage
+  const deleteTask = async (task_id) => {
+    await UserApi.deleteTask(task_id)
+    setUserTasks(tasks => userTasks.filter(t => t.id !== task_id))
+  }
 
+  //tabs for tasks
   const myPanes = [
+    //All User's Tasks for a current project or all tasks if project not selected
     { menuItem: 'All Tasks', render: () => <Tab.Pane className='tab-pane'>
       { userTasks.filter(task => task.status !== 'Complete').length > 0 ?
         <Carousel cols={2} rows={2} gap={10} loop className='carousel'>
           {userTasks.filter(task => task.status !== 'Complete').map(task => (
-            <Carousel.Item className='carousel-item'>
-              <TaskCard key={uuid()} task={task} setTasks={setUserTasks} tasks={userTasks}/>
+            <Carousel.Item className='carousel-item' key={uuid()} >
+              <TaskCard task={task} setTasks={setUserTasks} tasks={userTasks} deleteTask={deleteTask}/>
             </Carousel.Item>))}
         </Carousel>:
         <Header>You do not have any tasks.</Header> }
         </Tab.Pane> },
+    //Tasks that are due today
     { menuItem: 'Today', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+    //Tasks that are due this week
     { menuItem: 'This Week', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> }, 
+    //Completed Tasks
     { menuItem: 'Completed Tasks', render: () => <Tab.Pane>
       {userTasks.filter(task => task.status === 'Complete').length > 0 ?
-        <Card.Group itemsPerRow={2}>
-          {userTasks.filter(task => task.status === 'Complete').map(task => <TaskCard key={uuid()} task={task}/>)}
-        </Card.Group> :
+        <Carousel cols={2} rows={2} gap={10} loop className='carousel'>
+          {userTasks.filter(task => task.status === 'Complete').map(task => (
+            <Carousel.Item className='carousel-item' key={uuid()} >
+              <TaskCard task={task} setTasks={setUserTasks} tasks={userTasks} deleteTask={deleteTask}/>
+            </Carousel.Item>))}
+        </Carousel> :
       <Header>You have not completed any tasks.</Header> }
       </Tab.Pane> }, 
+    //Renders form to add a task
     { menuItem: '+Add New Task', render: () => (
       <Tab.Pane><NewTaskForm/></Tab.Pane> )}]
 

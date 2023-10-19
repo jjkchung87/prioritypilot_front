@@ -26,22 +26,18 @@ function App() {
             const user = decodeToken(token)
             // put the token on the Api class so it can use it to call the API.
             UserApi.token = token;
-            // finds current user info by username from token
+            // finds current user info by user_id from token
             let currUser = await UserApi.getCurrentUser(user.sub);
             setCurrentUser(currUser.user);  
             setProjects(currUser.user.projects)
           } catch (err) {
             console.error("App loadUserInfo: problem loading", err);
             setCurrentUser(null);
-          }
-        }
-      }
+          }}}
       getCurrentUser();
-      }
-  , [token]);
+    }, [token]);
 
-
-  /** Handles site-wide signup.*/
+  // Handles site-wide signup.
   async function register(signupData) {
     try {
       let token = await UserApi.register(signupData);
@@ -53,7 +49,7 @@ function App() {
     }
   }
 
-  /** Handles site-wide login.*/
+  //Handles site-wide login
   async function login(data) {
     try {
       let token = await UserApi.login(data);
@@ -65,7 +61,7 @@ function App() {
     }
   }
 
-  /** Handles site-wide logout*/ 
+  //Handles site-wide logout
   async function logout() {
     setCurrentUser(null);
     setCurrentProject(null);
@@ -73,7 +69,6 @@ function App() {
     setToken(null);
     navigate('/')
   }
-
   return (
     <>
       <UserContext.Provider value={{ currentUser }}>
