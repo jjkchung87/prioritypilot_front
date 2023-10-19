@@ -3,12 +3,14 @@ import ProjectDropdown from './ProjectDropdown'
 import ProgressTable from './ProgressTable'
 import PollingCountDown from './PollingCountDown'
 import MainTaskScreen from './MainTaskScreen'
-import { useContext, useEffect } from 'react'
+import Modal from './Modal'; // Import a modal component
+import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 
 function UserPage({ logout }) {
   const { currentUser } = useContext(UserContext)
+  const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate()
   useEffect(() => {
     if (!currentUser) navigate('/')
@@ -25,6 +27,10 @@ function UserPage({ logout }) {
           </div>
           <MainTaskScreen />
         </div>
+        {showModal && (
+        <Modal closeModal={() => setShowModal(false)}>
+        </Modal>
+      )}
     </div>  
   )
 }
