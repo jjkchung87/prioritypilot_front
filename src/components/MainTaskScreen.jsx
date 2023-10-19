@@ -1,4 +1,4 @@
-import { Tab, Card, Form, Header, Dropdown, Input } from 'semantic-ui-react'
+import { Tab, Card, Header } from 'semantic-ui-react'
 import TaskCard from './TaskCard'
 import NewTaskForm from './NewTaskForm'
 import { useContext, useEffect, useState } from 'react'
@@ -6,6 +6,7 @@ import { UserContext } from '../context/UserContext'
 import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
 import UserApi from '../api'
 import {v4 as uuid} from 'uuid';
+import Carousel from 'react-grid-carousel'
 
 function MainTaskScreen() {
   const { currentUser } = useContext(UserContext)
@@ -39,9 +40,12 @@ function MainTaskScreen() {
   const myPanes = [
     { menuItem: 'All Tasks', render: () => <Tab.Pane className='tab-pane'>
       { userTasks.filter(task => task.status !== 'Complete').length > 0 ?
-        <Card.Group itemsPerRow={2}>
-          {userTasks.filter(task => task.status !== 'Complete').map(task => <TaskCard key={uuid()} task={task} setTasks={setUserTasks} tasks={userTasks}/>)}
-        </Card.Group> :
+        <Carousel cols={2} rows={2} gap={10} loop className='carousel'>
+          {userTasks.filter(task => task.status !== 'Complete').map(task => (
+            <Carousel.Item className='carousel-item'>
+              <TaskCard key={uuid()} task={task} setTasks={setUserTasks} tasks={userTasks}/>
+            </Carousel.Item>))}
+        </Carousel>:
         <Header>You do not have any tasks.</Header> }
         </Tab.Pane> },
     { menuItem: 'Today', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
