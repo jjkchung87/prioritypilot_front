@@ -79,6 +79,15 @@ class UserApi {
     let res = await this.request(`projects/${project_id}/tasks"`);
     return res;
   }
+
+  // Get AI tips for task
+  static async getAiTips(taskId) {
+    console.log(taskId)
+    let res = await this.request(`tasks/${taskId}/tip`, taskId, "post");
+    console.log(res)
+    return res.data;
+}
+
   
 }
 
