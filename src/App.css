@@ -145,6 +145,10 @@ body {
 .created-at { 
   float: right;
 }
+
+.past-due {
+  color: red !important;
+}
 .task-name {
   text-transform:capitalize;
 }
