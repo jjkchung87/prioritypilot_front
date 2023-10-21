@@ -66,7 +66,7 @@ a:hover {
   background-color: rgba(255,255,255, 0.8)
 }
 
-.project-form, .spinner, .modal-content{
+.project-form, .spinner, .modal-content {
   padding: 3rem;
   position: absolute;
   z-index: 30;
@@ -82,7 +82,7 @@ a:hover {
   background-color: rgba(255,255,255, 0.8);
   border-radius: 10px;
   height: fit-content;
-
+  min-width: 400px;
 }
 .spinner img {
   margin-top: 40px;
@@ -140,13 +140,13 @@ a:hover {
 /* modals------------------------------------------------------------ */
 
 .modal-background {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100vh;
-  top: 6rem;
+  top: 0;
   left:0;
   background-color: rgba(255,255,255, 0.8);
-  z-index: 50;
+  z-index: 60;
 }
 
 .modal-background .spiner img{
@@ -232,4 +232,8 @@ text-align: left;
 
 .close-window {
   float: right;
+}
+
+.ai-recommendation {
+  border: blue solid 1px !important;
 }

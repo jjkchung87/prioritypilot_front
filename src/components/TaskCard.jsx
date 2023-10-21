@@ -2,10 +2,12 @@ import {Button, Card, Icon} from 'semantic-ui-react'
 import { useState } from 'react'
 import EditTaskForm from './EditTaskForm'
 import UserApi from '../api'
+import AiTipsModal from './AiTipsModal'
 
 function TaskCard({ task, setTasks, tasks, deleteTask }) {
-  const [ showEditTask, setShowEditTask ] = useState(false)
-  const [ currentStatus, setCurrentStatus ] = useState(task.status)
+  const [showEditTask, setShowEditTask] = useState(false)
+  const [currentStatus, setCurrentStatus] = useState(task.status)
+  const [showAiModal, setShowAiModal] = useState(false)
   //function updates status with db and locally
   const updateStatus = async (status) => {
     let taskWithNewStatus = {...task, status: status}
@@ -25,7 +27,9 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
   }
 
   return (
-    <>{showEditTask && <EditTaskForm task={task} addUpdates={addUpdates} setShowForm={setShowEditTask} tasks={tasks}/>}
+    <>
+      {showAiModal && <AiTipsModal task={task} closeModal={()=>setShowAiModal(false)}/>}
+      {showEditTask && <EditTaskForm task={task} addUpdates={addUpdates} setShowForm={setShowEditTask} tasks={tasks}/>}
       <Card raised className='task-card'>
         <Card.Content>
           <div className='card-icons'>
@@ -50,7 +54,8 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
           <Card.Meta></Card.Meta>
         </Card.Content>
         <Card.Content extra>
-        <Button size="tiny">AI Recommendations</Button> <span className='created-at'>Date created: {task.created_at}</span>
+        <Button size="tiny" onClick={()=>setShowAiModal(true)}>AI Recommendations</Button> 
+        <span className='created-at'>Date created: {task.created_at}</span>
         </Card.Content>
       </Card>
     </>  

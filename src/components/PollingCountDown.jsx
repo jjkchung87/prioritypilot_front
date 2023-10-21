@@ -13,7 +13,7 @@ function PollingCountDown() {
   // The Poll Modal State 
 
   useEffect(() => {
-    if (timer === '23:03:12') {
+    if (timer === '23:51:52') {
       if (currentUser) {
         setShowPollModal(true)
       } else {
@@ -53,7 +53,8 @@ function PollingCountDown() {
   const getDeadTime = () => {
     let deadline;
     const currentDeadline = JSON.parse(localStorage.getItem('deadline'))
-    if (currentDeadline) {
+    console.log(Date.parse(currentDeadline), Date.parse(new Date()))
+    if (currentDeadline && (Date.parse(currentDeadline) > Date.parse(new Date()))) {
       deadline = currentDeadline
     } else {
       deadline = new Date();
@@ -76,7 +77,7 @@ function PollingCountDown() {
   
   return (
     <>
-      {showPollModal && <Modal closeModal={()=>setShowPollModal(false)} resetTimer={resetTimer}/>}
+      {showPollModal && <Modal closeModal={()=>setShowPollModal(false)} timer={timer} resetTimer={resetTimer}/>}
       <div className="countdown-table wrapper">
         <Header>AI - Polling Count Down</Header>
         <div className="time">

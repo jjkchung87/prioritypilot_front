@@ -42,7 +42,7 @@ function MainTaskScreen() {
   //delete task from db and state
   const deleteTask = async (task_id) => {
     await UserApi.deleteTask(task_id)
-    setUserTasks([...tasks => userTasks.filter(t => t.id !== task_id)])
+    setUserTasks([...userTasks.filter(t => t.id !== task_id)])
   }
   
   //tabs for tasks
