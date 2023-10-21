@@ -74,7 +74,7 @@ function App() {
       <UserContext.Provider value={{ currentUser }}>
       <ProjectContext.Provider value={{ currentProject, setCurrentProject }}>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
-        <MainNavbar />
+        <MainNavbar logout={logout}/>
         <Routes>
           <Route path='/' element={<LoginForm login={login}/>} />
           <Route path='/register' element={<RegistrationForm register={register}/>} />

@@ -62,11 +62,11 @@ function NewProjectForm({ setShowForm }) {
 
   return (
     <div className="add_project">
-      {loading ? <Spinner /> :
+      {loading ? <Spinner text={'AI is loading tasks for your project...'} /> :
       <Form className='project-form' onSubmit={handleSubmit}>
-        <Button className='close-project-form' icon 
+        <Button className='close-window' icon
                 onClick={()=>setShowForm(false)}
-                size="tiny">
+                size="small">
           <Icon name="close"></Icon>
         </Button>
         <h1>Add New Project</h1>

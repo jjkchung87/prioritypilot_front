@@ -71,7 +71,6 @@ class UserApi {
    static async getUsersTasks(user_id) {
     let res = await this.request(`users/${user_id}/tasks`);
     return res;
-
   }
 
    // Get all tasks for project
@@ -86,9 +85,7 @@ class UserApi {
     let res = await this.request(`tasks/${taskId}/tip`, taskId, "post");
     console.log(res)
     return res.data;
-}
-
-  
-}
+  }
+ }
 
 export default UserApi

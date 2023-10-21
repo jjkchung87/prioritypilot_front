@@ -23,6 +23,7 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
   const handleDelete = async () => {
     await deleteTask(task.id)
   }
+
   return (
     <>{showEditTask && <EditTaskForm task={task} addUpdates={addUpdates} setShowForm={setShowEditTask} tasks={tasks}/>}
       <Card raised className='task-card'>
