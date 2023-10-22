@@ -1,5 +1,5 @@
 form {
-  background-color: rgb(255, 255, 249);
+  background-color: rgb(234, 234, 234);
   border-radius: 10px;
   font-size: 1.4rem !important;
   box-shadow: 2px 2px 8px gray;
@@ -66,7 +66,7 @@ a:hover {
   background-color: rgba(255,255,255, 0.8)
 }
 
-.project-form, .spinner {
+.project-form, .spinner, .modal-content{
   padding: 3rem;
   position: absolute;
   z-index: 30;
@@ -75,7 +75,7 @@ a:hover {
   left: 50%;
   transform: translateX(-50%); 
 }
-.spinner {
+.spinner, .modal-content {
   color: grey;
   text-align: center;
   box-shadow: 2px 2px 8px gray;
@@ -85,7 +85,8 @@ a:hover {
 
 }
 .spinner img {
-  margin-top: 50px;
+  margin-top: 40px;
+  width: 80px;
   animation: rotation 2s infinite linear;
 }
 
@@ -98,10 +99,6 @@ a:hover {
   }
 }
 
-.close-project-form {
-  float: right;
-}
-
 .ai-checkbox-field {
   display: flex;
   align-items: center;
@@ -110,7 +107,6 @@ a:hover {
 .ai-checkbox-field input {
   margin-right: 1rem;
 }
-
 /* add new task form ---------------- */
 
 .select {
@@ -141,3 +137,99 @@ a:hover {
 }
 
 
+/* modals------------------------------------------------------------ */
+
+.modal-background {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 6rem;
+  left:0;
+  background-color: rgba(255,255,255, 0.8);
+  z-index: 50;
+}
+
+.modal-background .spiner img{
+  width: 3px !important;
+}
+
+/* Style the dropdown container */
+.select-container {
+  position: relative;
+  width: 120px; /* Adjust the width as needed */
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Style the select element */
+.select-dropdown {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  appearance: none; /* Remove default arrow on some browsers */
+}
+
+/* Style the arrow icon */
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+/* Style the dropdown options */
+.select-dropdown option {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Hover effect for options */
+.select-dropdown option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Active (selected) option */
+.select-dropdown option:checked {
+  background-color: #007bff; /* Adjust the color for selected option */
+  color: #fff;
+}
+
+.Modal-logo {
+  max-height: 20px;
+  cursor: pointer;
+}
+
+.Modal-logo:hover {
+  animation: spin 2s linear infinite;
+}
+
+.Modal-logo-spinner {
+  max-height: 20px;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Modal.css */
+.table-style {
+border: 1px solid black;
+border-collapse: collapse;
+width: 100%;
+}
+
+.table-style th, .table-style td {
+border: 1px solid black;
+padding: 8px;
+text-align: left;
+}
+
+.close-window {
+  float: right;
+}

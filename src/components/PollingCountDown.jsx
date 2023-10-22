@@ -1,11 +1,27 @@
 import { Header } from "semantic-ui-react"
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import Modal from './Modal'
+import { UserContext } from "../context/UserContext";
 
 function PollingCountDown() {
+  const {currentUser} = useContext(UserContext)
   const Ref = useRef(null);
+  const [showPollModal, setShowPollModal] = useState(false);
  
-  // The state for our timer
+  // The state for the timer
   const [timer, setTimer] = useState('00:00:00');
+  // The Poll Modal State 
+
+  useEffect(() => {
+    if (timer === '23:03:12') {
+      if (currentUser) {
+        setShowPollModal(true)
+      } else {
+        setTimer('00:00:10')
+      }
+    }  
+  }, [timer, currentUser])
+
   const getTimeRemaining = (e) => {
       const total = Date.parse(e) - Date.parse(new Date());
       const seconds = Math.floor((total / 1000) % 60);
@@ -54,16 +70,21 @@ function PollingCountDown() {
 
   //timer will be reset when polling pop up is closed
   const resetTimer = () => {
+    localStorage.removeItem('deadline')
     clearTimer(getDeadTime());
   }
   
   return (
-    <div className="countdown-table wrapper">
-      <Header>AI - Polling Count Down</Header>
-      <div className="time">
-        {timer}
+    <>
+      {showPollModal && <Modal closeModal={()=>setShowPollModal(false)} resetTimer={resetTimer}/>}
+      <div className="countdown-table wrapper">
+        <Header>AI - Polling Count Down</Header>
+        <div className="time">
+          {timer}
+        </div>
       </div>
-    </div>
+    </>
+    
   )
 }
   

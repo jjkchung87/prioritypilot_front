@@ -23,6 +23,7 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
   const handleDelete = async () => {
     await deleteTask(task.id)
   }
+
   return (
     <>{showEditTask && <EditTaskForm task={task} addUpdates={addUpdates} setShowForm={setShowEditTask} tasks={tasks}/>}
       <Card raised className='task-card'>
@@ -35,8 +36,12 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
             <Button size="tiny" icon onClick={handleDelete}><Icon name="delete"/></Button>
           </div>
           <Card.Header className='task-name'>{task.task_name}</Card.Header>
-          <Card.Meta>Priority: {task.priority.toUpperCase()}</Card.Meta>
-          <Card.Meta>Deadline: {task.end_date.toString()}</Card.Meta>
+          <Card.Meta>Priority:  {task.priority.toUpperCase()}</Card.Meta>
+          <Card.Meta>Deadline:  <span className={new Date(task.end_date).getDate() < new Date().getDate() ? 'past-due' : 'not-past-due'}>
+              {task.end_date.toString()}
+            </span>
+            {new Date(task.end_date).getDate() < new Date().getDate() && <Icon color='red' name="exclamation circle"/>}
+          </Card.Meta>
           <div className='card-icons'>
             {currentStatus === "In Progress" && <> <Icon name="clock" color='green' className="in-progress-icon"/>In Progress </>}
             {currentStatus === "Complete" && <> <Icon name="check circle" color='green' className='completed'/>Completed </>}

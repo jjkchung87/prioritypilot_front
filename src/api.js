@@ -71,7 +71,6 @@ class UserApi {
    static async getUsersTasks(user_id) {
     let res = await this.request(`users/${user_id}/tasks`);
     return res;
-
   }
 
    // Get all tasks for project
@@ -84,11 +83,36 @@ class UserApi {
   static async getAiTips(taskId) {
     console.log(taskId)
     let res = await this.request(`tasks/${taskId}/tip`, taskId, "post");
-    console.log(res)
-    return res.data;
-}
+    return res;
+  }
 
-  
-}
+  // Get subordinates of user
+
+  static async getSubs(userId) {
+    let res = await this.request(`users/${userId}/subs`);
+    return res
+  }
+
+
+// Get users of project
+
+  static async getUsersByProject(projectId) {
+    try {
+      let res = await this.request(`projects/${projectId}/users`);
+      if (res) {
+        return res;
+      } else {
+        console.error("API Error: Response data is undefined");
+        return [];
+      }
+    } catch (error) {
+      console.error("API Error:", error.message);
+      return [];
+    }
+  }
+
+
+
+ }
 
 export default UserApi

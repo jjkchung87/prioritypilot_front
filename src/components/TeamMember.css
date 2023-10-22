@@ -1,4 +1,18 @@
-.TeamMember-img {
+.TeamMember {
+    box-shadow: 2px 2px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 5%;
+    padding: 5px;
     max-width: 80%;
 }
 
+.TeamMember-img {
+    max-width: 50%;
+    border-radius: 50%;
+}
+
+.SideNavbar-TeamCards {
+    margin: 10px;
+
+}

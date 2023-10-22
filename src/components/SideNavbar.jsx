@@ -1,58 +1,70 @@
-import {Header, List} from 'semantic-ui-react';
+import {Header} from 'semantic-ui-react';
+import { useState, useContext, useEffect} from 'react'
 import TeamMember from './TeamMember';
+import { UserContext } from '../context/UserContext'
+import { ProjectContext } from '../context/ProjectContext'
+import UserApi from '../api'
 
 function SideNavbar({ logout }) {
-    return (
-      <div className="wrapper sidebar"  style={{textAlign:"center"}}>
-        <div className="tasks">
-          <Header>Tasks</Header>
-          <List>
-            <List.Item>
-              <List.Icon name='clipboard' />
-              <List.Content>Today</List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Icon name='tag' />
-              <List.Content>Priority</List.Content>
-            </List.Item>
-          </List>
-        </div>
-        <div className="team-members" style={{textAlign:"center"}}>
-          <Header>Your Team</Header>
-          <TeamMember name="Michelle Wesley" 
-                      img="https://media.istockphoto.com/id/1394347360/photo/confident-young-black-businesswoman-standing-at-a-window-in-an-office-alone.jpg?s=612x612&w=0&k=20&c=tOFptpFTIaBZ8LjQ1NiPrjKXku9AtERuWHOElfBMBvY=" 
-                      progress="75"
-                      role="Assistant Product Manager"
-                      lastUpdate={"10-18-2023"} />
-          <TeamMember name="Bailey Smith" 
-                      img="https://media.istockphoto.com/id/1279504799/photo/businesswomans-portrait.jpg?s=612x612&w=0&k=20&c=I-54ajKgmxkY8s5-myHZDv_pcSCveaoopf1DH3arv0k=" 
-                      progress="15"
-                      role="Coordinator"
-                      lastUpdate={"10-31-2023"}/>
-          <TeamMember name="Matt Bissonnette" 
-                      img="https://media.istockphoto.com/id/1016761216/photo/portrait-concept.jpg?s=612x612&w=0&k=20&c=JsGhLiCeBZs7NeUY_3wjDlLfVkgDJcD9UCXeWobe7Ak=" 
-                      progress="85"
-                      role="Analyst"
-                      lastUpdate={"10-25-2023"}/>
-        </div>
-        <div className="Menu"  style={{textAlign:"center"}}>
-          <Header>Menu</Header>
-          <List>
-            <List.Item>
-              <List.Icon name='calendar alternate outline' />
-              <List.Content>Overview</List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Icon name='settings' />
-              <List.Content>Settings</List.Content>
-            </List.Item>
-            <List.Item onClick={logout}>
-              <List.Icon name='sign-out' />
-              <List.Content>Logout</List.Content>
-            </List.Item>
-          </List>
-        </div>
+  const { currentUser } = useContext(UserContext)
+  const { currentProject } = useContext(ProjectContext)
+
+  const [teamView, setTeamView] = useState("Project Team")
+  const [teamMemberCards, setTeamMemberCards] = useState([])
+
+  useEffect(function fetchUsersWhenMounted() {
+    async function fetchUsers() {
+      let users = null;
+      try{
+          if(teamView === 'Project Team'){
+          let res = await UserApi.getUsersByProject(currentProject.id)
+          console.log(res)
+          users = res.data.users
+          } else {
+            let res = await UserApi.getSubs(currentUser.id)
+            console.log(res)
+            users = res.data.users
+          }
+          setTeamMemberCards(users.filter(u => u.id !== currentUser.id))
+
+        } catch (error){
+          console.error('Error fetching team users:', error)
+      } 
+    }
+    fetchUsers()
+  }
+  ,[teamView, currentProject])
+  
+
+  const handleTeamViewChange = (e) => {
+    setTeamView(e.target.value)
+    console.log(teamView)
+  }
+
+
+  return (
+    <div className="wrapper sidebar" >
+      <div className="team-members" style={{textAlign:"center"}}>
+      <select className="select-project" value={teamView} onChange={handleTeamViewChange}>
+        <option value="Project Team">Project Team</option>
+        <option value="Your Team">Your Team</option>
+      </select>
+      <div className="SideNavbar-TeamCards">
+        {teamMemberCards.map(member => (
+          <TeamMember firstName={member.first_name}
+          lastName={member.last_name}
+          img={member.profile_img}
+          total_task_count={member.total_task_count}
+          not_started_task_count={member.not_started_task_count}
+          in_progress_task_count={member.in_progress_task_count}
+          completed_task_count={member.completed_task_count}
+          role={member.role}
+          lastUpdate={member.latest_update} />
+        ))}
       </div>
-    )
+      
+      </div>
+    </div>
+  )
   }
   export default SideNavbar
