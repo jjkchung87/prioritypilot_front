@@ -12,7 +12,7 @@ function ProjectDropdown() {
   }
 
   return (
-    <div className="dropdown wrapper">
+    <div className="dropdown">
       <select onChange={handleSelectProject} className="select-project">
         {!currentProject ? 
         <>

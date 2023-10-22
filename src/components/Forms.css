@@ -34,7 +34,7 @@ form {
   font-size: 3rem !important;
 }
 
-p {
+.form-side-note {
   vertical-align: center;
   text-align: right;
   font-size: small;

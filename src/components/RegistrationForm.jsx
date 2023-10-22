@@ -147,7 +147,7 @@ function RegistrationForm({ register }) {
             <Checkbox label='I agree to the Terms and Conditions' required /> 
           </Form.Field>  
           <Form.Field>
-            <p>Already a member? <Link to="/">Sign in </Link>here.</p>
+            <p className='form-side-note'>Already a member? <Link to="/">Sign in </Link>here.</p>
           </Form.Field>
         </Form.Group>
          <Form.Field

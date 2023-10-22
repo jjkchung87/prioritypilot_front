@@ -69,7 +69,7 @@ function LoginForm({ login }) {
           placeholder='Password'/>
           {error && <span className='error-msg'>Invalid credentials</span>}
         <Form.Field>
-        <p>Don't have an account? <Link to="/register">Register</Link> here.</p>
+        <p className='form-side-note'>Don't have an account? <Link to="/register">Register</Link> here.</p>
         </Form.Field>
         <Form.Field
           fluid 

@@ -8,6 +8,7 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
   const [showEditTask, setShowEditTask] = useState(false)
   const [currentStatus, setCurrentStatus] = useState(task.status)
   const [showAiModal, setShowAiModal] = useState(false)
+  console.log(setTasks)
   //function updates status with db and locally
   const updateStatus = async (status) => {
     let taskWithNewStatus = {...task, status: status}
@@ -22,8 +23,8 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
     setTasks(list)
   }
   //handles delete button click
-  const handleDelete = async () => {
-    await deleteTask(task.id)
+  const handleDelete = async (id) => {
+    await deleteTask(id)
   }
 
   return (
@@ -37,7 +38,7 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
             {(currentStatus === "Not Started" || currentStatus === "In Progress") && <Button size="tiny" onClick={()=>updateStatus('Complete')}>Complete Task</Button>}
             {currentStatus !== "Complete" &&
             <Button size="tiny" icon onClick={()=>setShowEditTask(true)}><Icon name="edit"/></Button>}
-            <Button size="tiny" icon onClick={handleDelete}><Icon name="delete"/></Button>
+            <Button size="tiny" icon onClick={()=>handleDelete(task.id)}><Icon name="delete"/></Button>
           </div>
           <Card.Header className='task-name'>{task.task_name}</Card.Header>
           <Card.Meta>Priority:  {task.priority.toUpperCase()}</Card.Meta>
