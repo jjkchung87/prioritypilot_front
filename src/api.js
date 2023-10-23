@@ -56,7 +56,7 @@ class UserApi {
   // Edit Task to DB
   static async editTask(data, project_id, task_id) {
     console.log('print new task', data)
-    let res = await this.request(`projects/${project_id}/task/${task_id}`, data, "patch");
+    let res = await this.request(`projects/${project_id}/tasks/${task_id}`, data, "patch");
     return res;
   }
 
@@ -86,6 +86,32 @@ class UserApi {
     console.log(res)
     return res.data;
   }
+
+  // Get subordinates of user
+  static async getSubs(userId) {
+    let res = await this.request(`users/${userId}/subs`);
+    return res
+  }
+  
+  
+  // Get users of project
+  
+  static async getUsersByProject(projectId) {
+    try {
+      let res = await this.request(`projects/${projectId}/users`);
+      if (res) {
+        return res;
+      } else {
+        console.error("API Error: Response data is undefined");
+        return [];
+      }
+    } catch (error) {
+      console.error("API Error:", error.message);
+      return [];
+    }
+  }
+
+
  }
 
 export default UserApi
