@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext";
 function PollingCountDown() {
   const {currentUser} = useContext(UserContext)
   const Ref = useRef(null);
-  const [showPollModal, setShowPollModal] = useState(false);
+  const [showPollModal, setShowPollModal] = useState(true);
  
   // The state for the timer
   const [timer, setTimer] = useState('00:00:00');
@@ -79,7 +79,7 @@ function PollingCountDown() {
     <>
       {showPollModal && <Modal closeModal={()=>setShowPollModal(false)} timer={timer} resetTimer={resetTimer}/>}
       <div className="table">
-        <Header>AI - Polling Count Down</Header>
+        <Header>Your Next Status Update ...</Header>
         <div className="time">
           {timer}
         </div>

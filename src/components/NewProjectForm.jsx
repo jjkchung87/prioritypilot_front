@@ -7,10 +7,11 @@ import UserApi from '../api'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
 import Spinner from './Spinner'
+import aiLogo from '../assets/pp_logo_background.jpeg'
 
 function NewProjectForm({ setShowForm }) {
  
-  const past = (date) => new Date() < date;
+  const past = (date) => new Date() < date;   
   const initialState = {
     project_name: "",
     end_date: "",
@@ -87,7 +88,7 @@ function NewProjectForm({ setShowForm }) {
           <Form.TextArea required label='Description' name="description" placeholder='Add description...' onChange={handleInputChange} value={formData.description}/>
         </Form.Field>
         <Form.Field className='ai-checkbox-field'>
-          <input name="ai_recommendation" type='checkbox' checked={formData.ai_recommendation} onChange={handleInputChange}/> <label>Create Project with AI</label>   
+          <input name="ai_recommendation" type='checkbox' checked={formData.ai_recommendation} onChange={handleInputChange}/>  <label> PriorityPilot AI</label>  <img className="add_project_logo_image" src={aiLogo} alt="PriorityPilot_logo"/>  
         </Form.Field>
         <Form.Field
           fluid 
@@ -101,3 +102,4 @@ function NewProjectForm({ setShowForm }) {
 }
 
 export default NewProjectForm
+

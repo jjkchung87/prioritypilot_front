@@ -1,4 +1,4 @@
-import {Header} from 'semantic-ui-react';
+import {Header, Icon} from 'semantic-ui-react';
 import { useState, useContext, useEffect} from 'react'
 import TeamMember from './TeamMember';
 import { UserContext } from '../context/UserContext'
@@ -49,6 +49,11 @@ function SideNavbar({ logout }) {
         <option value="Project Team">Project Team</option>
         <option value="Your Team">Your Team</option>
       </select>
+      <p>
+          <span className="status-color"><Icon color='dark-blue' name='square' />Complete </span>
+          <span className="status-color"><Icon color='blue' name='square' />In Progress </span>
+          <span className="status-color"><Icon color='grey' name='square' />Not Started </span>
+      </p>
       <div className="SideNavbar-TeamCards">
         {teamMemberCards.map(member => (
           <TeamMember firstName={member.first_name}
@@ -59,7 +64,9 @@ function SideNavbar({ logout }) {
           in_progress_task_count={member.in_progress_task_count}
           completed_task_count={member.completed_task_count}
           role={member.role}
-          lastUpdate={member.latest_update} />
+          lastUpdate={member.latest_update}
+          manager_id = {member.manager_id}
+          />
         ))}
       </div>
       

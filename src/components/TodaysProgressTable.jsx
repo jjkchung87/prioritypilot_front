@@ -37,8 +37,8 @@ function TodaysProgressTable({tasks}) {
       <Header>Today's Progress</Header>
       <p>Today's Tasks {todayTasks.length}</p>
       <p>
-          <span className="status-color"><Icon color='blue' name='square' />Complete </span>
-          <span className="status-color"><Icon color='purple' name='square' />In Progress </span>
+          <span className="status-color"><Icon color='dark-blue' name='square' />Complete </span>
+          <span className="status-color"><Icon color='blue' name='square' />In Progress </span>
           <span className="status-color"><Icon color='grey' name='square' />Not Started </span>
       </p>
       <div className="progress-bar">
