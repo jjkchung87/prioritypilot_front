@@ -17,7 +17,11 @@ const TeamMember = ({role,
     not_started_task_count,
     in_progress_task_count,
     completed_task_count, 
-    lastUpdate}) => { 
+    lastUpdate,
+    manager_id}) => { 
+
+    const { currentUser } = useContext(UserContext)
+    const [nudged, setNudged] = useState(false)
 
     //Last Update calculations
     const targetDate = new Date(lastUpdate); //date object
@@ -32,7 +36,10 @@ const TeamMember = ({role,
     const notStartedProgress = total_task_count===0 ? '' : Math.floor(not_started_task_count/total_task_count*100)
     const inProgressProgress = total_task_count===0 ? '' : Math.floor(in_progress_task_count/total_task_count*100)
     const completedProgress = total_task_count===0 ? '' : Math.floor(completed_task_count/total_task_count*100)
-
+    
+    const handleNudge = ()=>{
+      setNudged(true)
+    }
 
 
 return (
@@ -54,9 +61,12 @@ return (
 </div>
   <div className="last-update">
     {daysDifference > 7 ? (
+      <>
       <span style={{ color: "red", fontSize:"10px" }}>
         <b>Last update:</b> {formattedDate}
       </span>
+      { nudged ? (<div>nudged!</div>) : (<button onClick={handleNudge}>Nudge</button>)}
+      </>
     ) : (
       <span style={{ fontSize:"10px"}}>
         <b>Last update:</b> {formattedDate} <i> ({daysDifference} days ago)</i>
