@@ -42,40 +42,40 @@ const TeamMember = ({role,
     }
 
 
-return (
-  <div className="TeamMember" style={{ textAlign: "left" }}>
-    <img src={img} className="TeamMember-img" />
-    <div className="TeamMember-info">
-      <div><b>{firstName} {lastName}</b></div> 
-      <div>{role}</div>
-      <div className="progress-bar">
-  <div className="completed-tasks" style={{ width: `${completedProgress}%`, textAlign:"center" }}>
-    {total_task_count > 0 ? completed_task_count : ""}
+  return (
+    <div className="TeamMember" style={{ textAlign: "left" }}>
+      <img src={img} className="TeamMember-img" />
+      <div className="TeamMember-info">
+        <div><b>{firstName} {lastName}</b></div> 
+        <div>{role}</div>
+        <div className="progress-bar">
+    <div className="completed-tasks" style={{ width: `${completedProgress}%`, textAlign:"center" }}>
+      {total_task_count > 0 ? completed_task_count : ""}
+    </div>
+    <div className="in-progress-tasks" style={{ width: `${inProgressProgress}%`, textAlign:"center" }}>
+    {total_task_count > 0 ? in_progress_task_count: ""}
+    </div>
+    <div className="not-started-tasks" style={{ width: `${notStartedProgress}%`, textAlign:"center" }}>
+    {total_task_count > 0 ? not_started_task_count: ""}
+    </div>
   </div>
-  <div className="in-progress-tasks" style={{ width: `${inProgressProgress}%`, textAlign:"center" }}>
-  {total_task_count > 0 ? in_progress_task_count: ""}
+    <div className="last-update">
+      {daysDifference > 7 ? (
+        <>
+        <span style={{ color: "red", fontSize:"10px" }}>
+          <b>Last update:</b> {formattedDate}
+        </span>
+        { nudged ? (<div>nudged!</div>) : (<button onClick={handleNudge}>Nudge</button>)}
+        </>
+      ) : (
+        <span style={{ fontSize:"10px"}}>
+          <b>Last update:</b> {formattedDate} <i> ({daysDifference} days ago)</i>
+        </span>
+      )}
+    </div>
   </div>
-  <div className="not-started-tasks" style={{ width: `${notStartedProgress}%`, textAlign:"center" }}>
-  {total_task_count > 0 ? not_started_task_count: ""}
   </div>
-</div>
-  <div className="last-update">
-    {daysDifference > 7 ? (
-      <>
-      <span style={{ color: "red", fontSize:"10px" }}>
-        <b>Last update:</b> {formattedDate}
-      </span>
-      { nudged ? (<div>nudged!</div>) : (<button onClick={handleNudge}>Nudge</button>)}
-      </>
-    ) : (
-      <span style={{ fontSize:"10px"}}>
-        <b>Last update:</b> {formattedDate} <i> ({daysDifference} days ago)</i>
-      </span>
-    )}
-  </div>
-</div>
-</div>
-);
+  );
 
 }
 
