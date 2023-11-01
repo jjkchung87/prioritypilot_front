@@ -2,7 +2,7 @@ import { Tab, Header } from 'semantic-ui-react'
 import TaskCard from './TaskCard'
 import NewTaskForm from './NewTaskForm'
 import { useContext, useEffect, useState } from 'react'
-import { ProjectContext } from '../context/ProjectContext'
+import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
 import {v4 as uuid} from 'uuid';
 import Carousel from 'react-grid-carousel'
 
@@ -14,13 +14,13 @@ function MainTaskScreen({userTasks, setUserTasks, deleteTask}) {
   useEffect(() => {
     if (currentProject) {
       setTasks([...currentProject.tasks])
+    } else {
+      setTasks([...userTasks])
     }
-  }, [currentProject])
-
+  }, [currentProject, userTasks])
 
   //tabs for tasks
   const myPanes = [
-
     //All User's Tasks for a current project or all tasks if project not selected
     { menuItem: 'All Tasks', render: () => <Tab.Pane className='tab-pane'>
       {currentProject && <Header>Project: <span className='tab-project-name'>{currentProject.project_name}</span></Header>}

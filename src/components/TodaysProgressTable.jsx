@@ -10,9 +10,9 @@ function TodaysProgressTable({tasks}) {
     const todayTasks = tasks.filter(task => (
       new Date(task.end_date).getDate() <= new Date().getDate() && 
       new Date(task.end_date).getMonth() === new Date().getMonth()))
-    let complete = 0
-    let inProgress = 0
-    let notStarted = 0
+    let complete = ''
+    let inProgress = ''
+    let notStarted = ''
     if (todayTasks.length > 0) {
       for (let task of todayTasks) {
         if (task.status === 'Complete') {
@@ -35,9 +35,9 @@ function TodaysProgressTable({tasks}) {
     <div className="table">
       {todayTasks.length === 0 || !progress ? <Header>Not tasks for today</Header> : <>
       <Header>Today's Progress</Header>
-      <p>Today's Tasks {todayTasks.length}</p>
+      <p>Today's Tasks: {todayTasks.length}</p>
       <p>
-          <span className="status-color"><Icon color='dark-blue' name='square' />Complete </span>
+          <span className="status-color"><Icon color='black' name='square' />Complete </span>
           <span className="status-color"><Icon color='blue' name='square' />In Progress </span>
           <span className="status-color"><Icon color='grey' name='square' />Not Started </span>
       </p>

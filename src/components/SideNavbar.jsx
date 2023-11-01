@@ -15,61 +15,49 @@ function SideNavbar({ logout }) {
   useEffect(function fetchUsersWhenMounted() {
     async function fetchUsers() {
       let users = null;
-      try{
-          if(teamView === 'Project Team'){
-          let res = await UserApi.getUsersByProject(currentProject.id)
-          console.log(res)
-          users = res.data.users
-          } else {
-            let res = await UserApi.getSubs(currentUser.id)
-            console.log(res)
+      try {
+        if (teamView === 'Project Team') {
+          if (currentProject) {
+            let res = await UserApi.getUsersByProject(currentProject.id)
             users = res.data.users
           }
+        } else {
+          let res = await UserApi.getSubs(currentUser.id)
+          users = res.data.users
+        }
+        if (users) {
           setTeamMemberCards(users.filter(u => u.id !== currentUser.id))
-
-        } catch (error){
-          console.error('Error fetching team users:', error)
+        }
+      } catch (error){
+        console.error('Error fetching team users:', error)
       } 
     }
     fetchUsers()
   }
   ,[teamView, currentProject])
   
-
   const handleTeamViewChange = (e) => {
     setTeamView(e.target.value)
-    console.log(teamView)
   }
 
 
   return (
     <div className="wrapper sidebar" >
       <div className="team-members" style={{textAlign:"center"}}>
-      <select className="select-project" value={teamView} onChange={handleTeamViewChange}>
-        <option value="Project Team">Project Team</option>
-        <option value="Your Team">Your Team</option>
-      </select>
-      <p>
-          <span className="status-color"><Icon color='dark-blue' name='square' />Complete </span>
+        <select className="select-project" value={teamView} onChange={handleTeamViewChange}>
+          <option value="Project Team">Project Team</option>
+          <option value="Your Team">Your Team</option>
+        </select>
+        <p>
+          <span className="status-color"><Icon color='black' name='square' />Complete </span>
           <span className="status-color"><Icon color='blue' name='square' />In Progress </span>
           <span className="status-color"><Icon color='grey' name='square' />Not Started </span>
-      </p>
-      <div className="SideNavbar-TeamCards">
-        {teamMemberCards.map(member => (
-          <TeamMember firstName={member.first_name}
-          lastName={member.last_name}
-          img={member.profile_img}
-          total_task_count={member.total_task_count}
-          not_started_task_count={member.not_started_task_count}
-          in_progress_task_count={member.in_progress_task_count}
-          completed_task_count={member.completed_task_count}
-          role={member.role}
-          lastUpdate={member.latest_update}
-          manager_id = {member.manager_id}
-          />
-        ))}
-      </div>
-      
+        </p>
+        <div className="SideNavbar-TeamCards">
+          {teamMemberCards && teamMemberCards.map(member => (
+            <TeamMember  key={member.id} member={member}/>
+          ))}
+        </div>
       </div>
     </div>
   )

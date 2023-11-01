@@ -66,9 +66,7 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
 
 }
-/* .main-navbar img {
-	width: 4.3rem !important;
-} */
+
 /* sidebar styling------------------------------------ */
 .sidebar {
 	width: 400x;
@@ -92,20 +90,35 @@ body {
 
 /* dropdown styling------------------------------------------*/
 .dropdown {
-	width: 70vw;
+	width: 80vw;
 	padding: 3rem;
   margin: auto;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .select-project {
-	width: 100%;
-	height: 3rem;
+	width: 70%;
+}
+
+.all-projects-button {
+  width: 20%;
+  background-color: white !important;
+}
+
+.select-project, .all-projects-button {
+	height: 3rem !important;
 	text-align: center;
-	border-radius: 10px;
-	border: none;
+	border-radius: 10px !important;
+	border: none !important;
 	font-size: 1.3rem;
-	box-shadow: 1px 1px 3px grey;
+	box-shadow: 2px 2px 5px grey !important;
 	text-transform: capitalize;
+  cursor: pointer;
+}
+
+.select-project:hover, .all-projects-button:hover {
+  background-color: rgb(246, 246, 246) !important;
 }
 
 /* status tables ----------------------------------------------------------- */
@@ -118,7 +131,7 @@ body {
 .table {
 	width: 30%;
 	text-align: center;
-	box-shadow: 1px 1px 5px black;
+	box-shadow: 2px 2px 7px rgb(78, 78, 78);
 	border-radius: 5px;
 	padding: 3rem;
 	background-color: whitesmoke
@@ -135,19 +148,22 @@ body {
   display: flex;
   margin: auto;
   height: 2rem;
-  border: 1px solid #3E4A54;
   border-radius: 5px;
-
 }
 
 .completed-tasks {
-  background-color: rgb(65, 144, 255)
+  background-color: rgb(54, 91, 144);
+  color: white;
 }
 .in-progress-tasks {
   background-color: rgb(167, 203, 255)
 }
 .not-started-tasks {
   background-color: rgb(146, 146, 146)
+}
+
+.completed-tasks, .in-progress-tasks, .not-started-tasks {
+  padding-top: 3px;
 }
 
 .time {
@@ -179,6 +195,11 @@ body {
 .add_project_logo_image {
   max-width: 20px;
   margin: 5px;
+}
+
+.new-project-button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
 }
 
 /* styling countdown modal ---------------------- */
@@ -221,7 +242,10 @@ body {
 .task-ai-button {
   color: white !important;
   background-color:#0E578B !important;
-  
+}
+
+.task-ai-button:hover {
+  transform: scale(1.05);
 }
 
 

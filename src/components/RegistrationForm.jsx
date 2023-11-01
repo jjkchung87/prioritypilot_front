@@ -165,13 +165,7 @@ function RegistrationForm({ register }) {
             <p className='form-side-note'>Already a member? <Link to="/">Sign in </Link>here.</p>
           </Form.Field>
         </Form.Group>
-         <Form.Field
-          fluid 
-          size='large'
-          id='form-button-control-public'
-          control={Button}
-          content='Register'
-         />
+        <Button fluid type='submit'>Register</Button>
       </Form>
     </div>
   )

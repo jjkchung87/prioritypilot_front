@@ -32,7 +32,7 @@ function LoginForm({ login }) {
     e.preventDefault()
     const result = await login(formData)
     if (result.success) {
-      navigate(navigate('/my_projects'))
+      navigate('/my_projects')
     } else {
       setError(true)
       setFormData(initialState)
@@ -46,7 +46,6 @@ function LoginForm({ login }) {
       </div>
       <Form onSubmit={handleSubmit}>
         <Header className='form-header'>Priority Pilot</Header>
-        
         <Form.Field
           required
           type='email'
@@ -71,12 +70,7 @@ function LoginForm({ login }) {
         <Form.Field>
         <p className='form-side-note'>Don't have an account? <Link to="/register">Register</Link> here.</p>
         </Form.Field>
-        <Form.Field
-          fluid 
-          size='large'
-          id='form-button-control-public'
-          control={Button}
-          content='Sign In'/>
+        <Button fluid type='submit'>Sign In</Button>
       </Form>
     </div>
   )

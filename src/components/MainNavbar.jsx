@@ -1,4 +1,4 @@
-import { Header, Button, Image } from 'semantic-ui-react'
+import { Button, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import NewProjectForm from './NewProjectForm'
 import { useState, useContext } from 'react'
@@ -22,7 +22,7 @@ function MainNavbar({ logout }) {
           {/* <Icon name='bell' size="small"/> */}
           <div>{currentUser.first_name} {currentUser.last_name}</div>
           <Image src={currentUser.profile_img} size='tiny' circular />
-          <Link to={'/'} onClick={logout} style={{color: 'white'}}>Logout <Icon name="logout"/></Link>
+          <Link to={'/'} onClick={logout} style={{color: 'white'}}>Logout <Icon name="sign-out alternate"/></Link>
         </div> : 
         <div className='not-registered'>
           <Link to="/register" style={{color: 'white'}}>Register</Link>

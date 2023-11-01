@@ -2,8 +2,6 @@ import { Header,Icon } from "semantic-ui-react"
 import { ProjectContext } from "../context/ProjectContext"
 import { useContext, useEffect, useState } from "react"
 
-
-
 function ProjectProgressTable({userTasks}) {
   const { currentProject } = useContext(ProjectContext)
   const [progress, setProgress] = useState(null)
@@ -36,9 +34,9 @@ function ProjectProgressTable({userTasks}) {
 		  <div>
 				{currentProject.tasks.length > 0 ?
 					<>
-					<p>Project Tasks</p>
+					<p>Project Tasks: {currentProject.tasks.length}</p>
 					<p>
-						<span className="status-color"><Icon color='dark-blue' name='square' />Complete </span>
+						<span className="status-color"><Icon color='black' name='square' />Complete </span>
 						<span className="status-color"><Icon color='blue' name='square' />In Progress </span>
 						<span className="status-color"><Icon color='grey' name='square' />Not Started </span>
 					</p>
