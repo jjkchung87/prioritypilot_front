@@ -9,7 +9,6 @@ function TaskCard({ task, setTasks, tasks, deleteTask }) {
   const [showEditTask, setShowEditTask] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(task.status);
   const [showAiModal, setShowAiModal] = useState(false);
-  console.log(setTasks);
 
   // Define the priority colors
   const priorityColors = {

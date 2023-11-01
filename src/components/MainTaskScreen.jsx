@@ -10,7 +10,7 @@ function MainTaskScreen({userTasks, setUserTasks, deleteTask}) {
   const { currentProject } = useContext(ProjectContext)
   let currentTime = new Date()
   let [tasks, setTasks] = useState(userTasks)
-  console.log(setUserTasks)
+
   useEffect(() => {
     if (currentProject) {
       setTasks([...currentProject.tasks])

@@ -47,7 +47,7 @@ function PollingCountDown() {
   const getDeadTime = () => {
     let deadline;
     const currentDeadline = JSON.parse(localStorage.getItem('deadline'))
-    console.log(Date.parse(currentDeadline), Date.parse(new Date()))
+
     if (currentDeadline && (Date.parse(currentDeadline) > Date.parse(new Date()))) {
       deadline = currentDeadline
     } else {

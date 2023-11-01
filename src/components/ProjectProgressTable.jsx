@@ -8,14 +8,15 @@ function ProjectProgressTable({userTasks}) {
   const { currentProject } = useContext(ProjectContext)
   const [progress, setProgress] = useState(null)
   const [tasks, setTasks] = useState(userTasks)
-
+  
+  //counting progress for the bar 
   useEffect(()=> {
 	if (currentProject) {
 	  setTasks([...currentProject.tasks])
 	}
-	let complete = 0
-	let inProgress = 0
-	let notStarted = 0
+	let complete = ''
+	let inProgress =''
+	let notStarted = ''
 	for (let task of tasks) {
 	  if (task.status === 'Complete') {
 		complete ++
@@ -26,7 +27,7 @@ function ProjectProgressTable({userTasks}) {
 	  }
 	} 
 	setProgress({complete: complete, inProgress: inProgress, notStarted: notStarted})
-	}, [currentProject, tasks])
+	}, [currentProject, userTasks])
 
 	return (
 		<div className="table">
