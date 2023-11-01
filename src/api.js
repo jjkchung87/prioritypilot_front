@@ -70,6 +70,7 @@ class UserApi {
    // Get all tasks for user
    static async getUsersTasks(user_id) {
     let res = await this.request(`users/${user_id}/tasks`);
+    console.log('mytasks', res)
     return res;
   }
 

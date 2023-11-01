@@ -26,7 +26,8 @@ function MainTaskScreen({userTasks, setUserTasks, deleteTask}) {
       {currentProject && <Header>Project: <span className='tab-project-name'>{currentProject.project_name}</span></Header>}
       {tasks.filter(task => task.status !== 'Complete').length > 0 ?
         <Carousel cols={2} rows={3} gap={10} loop className='carousel'>
-          {tasks.filter(task => task.status !== 'Complete').map(task => (
+          {tasks.sort(function(a,b) {
+            return new Date(a.end_date) - new Date(b.end_date)}).filter(task => task.status !== 'Complete').map(task => (
             <Carousel.Item className='carousel-item' key={uuid()} >
               <TaskCard task={task} setTasks={setUserTasks} tasks={tasks} deleteTask={deleteTask}/>
             </Carousel.Item>))}
@@ -42,7 +43,8 @@ function MainTaskScreen({userTasks, setUserTasks, deleteTask}) {
          new Date(task.end_date).getMonth() === new Date().getMonth() &&
          task.status !== 'Complete')).length > 0 ?
         <Carousel cols={2} rows={3} gap={10} loop className='carousel'>
-          {tasks.filter(task => (
+          {tasks.sort(function(a,b) {
+            return new Date(a.end_date) - new Date(b.end_date)}).filter(task => (
             new Date(task.end_date).getDate() <= new Date().getDate() && 
             new Date(task.end_date).getMonth() === new Date().getMonth() &&
             task.status !== 'Complete')).map(task => (
@@ -60,7 +62,9 @@ function MainTaskScreen({userTasks, setUserTasks, deleteTask}) {
         new Date(task.end_date).getDate() <= new Date(currentTime.setDate(currentTime.getDate() - currentTime.getDay()+6)) &&
         task.status !== 'Complete')).length > 0 ?
         <Carousel cols={2} rows={3} gap={10} loop className='carousel'>
-          {tasks.filter(task => (
+          {tasks.sort(function(a,b) {
+            return new Date(a.end_date) - new Date(b.end_date)
+          }).filter(task => (
             new Date(task.end_date).getDate() <= new Date(currentTime.setDate(currentTime.getDate() - currentTime.getDay()+6)).getDate() &&
             task.status !== 'Complete')).map(task => (
               <Carousel.Item className='carousel-item' key={uuid()} >
@@ -75,7 +79,8 @@ function MainTaskScreen({userTasks, setUserTasks, deleteTask}) {
       {currentProject && <Header>Project: <span className='tab-project-name'>{currentProject.project_name}</span></Header>}
       {tasks.filter(task => task.status === 'Complete').length > 0 ?
         <Carousel cols={2} rows={3} gap={10} loop className='carousel'>
-          {tasks.filter(task => task.status === 'Complete').map(task => (
+          {tasks.sort(function(a,b) {
+            return new Date(a.end_date) - new Date(b.end_date)}).filter(task => task.status === 'Complete').map(task => (
             <Carousel.Item className='carousel-item' key={uuid()} >
               <TaskCard task={task} setTasks={setUserTasks} tasks={tasks} deleteTask={deleteTask}/>
             </Carousel.Item>))}
