@@ -3,7 +3,7 @@ import { UserContext } from '../context/UserContext'
 import DatePicker from 'react-datepicker'
 import './Forms.css'
 import Logo from "../assets/pp_logo.png"
-import { Button, Icon } from 'semantic-ui-react'
+import { Button, Icon, Table } from 'semantic-ui-react'
 import AiTipsModal from './AiTipsModal';
 
 function Modal({ closeModal, resetTimer }) {
@@ -78,44 +78,60 @@ function Modal({ closeModal, resetTimer }) {
           <Icon name="close"></Icon>
         </Button>
         {showAiModal.status && <AiTipsModal task={showAiModal.task} closeModal={()=>setShowAiModal(false)} />}
-        {tasksForToday.length > 0 ? <>
-          <h2>How are things going with these tasks?</h2>
-            <table className="table-style">
-              <thead>
-                <tr>
-                  <th>Project</th>
-                  <th>Task</th>
-                  <th>Deadline</th>
-                  <th>Status</th>
-                  <th>AI Navigation</th>
-                </tr>
-              </thead>
-              <tbody> {tasksForToday.map((task) => (
-                <tr key={task.id}>
-                  <td className='project-name'>{currentUser.projects.filter(p=> p.id === task.project_id)[0].project_name}</td>
-                  <td>{task.task_name}</td>
-                  <td>
-                    <DatePicker selected={new Date(taskData[task.id].end_date)}
-                                onChange={(date) => handleEndDateChange(task.id, date)}
-                                dateFormat="eee, dd MMM yyyy"/>
-                  </td>
-                  <td>
-                    <select value={taskData[task.id].status}
-                            onChange={(e) => handleStatusChange(task.id, e)}>
-                      <option value="Not Started">Not Started</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Complete">Complete</option>
-                    </select>
-                  </td>
-                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                    <img className="Modal-logo"
-                          src={Logo} alt='PriorityPilot_Logo'
-                          onClick={()=>setShowAiModal({status:true, task: task})}/>
-                  </td>
-                </tr>))}
-              </tbody>
-            </table> </> : 
-          <h2>You are doing a great! Not tasks are due today!</h2> }
+        {tasksForToday.length > 0 ? (
+  <>
+    <h2>Time for an update!</h2>
+    <Table celled structured className="table-style countdown-modal-table">
+      <Table.Header  color='blue'>
+        <Table.Row color='blue'>
+          <Table.HeaderCell>Project</Table.HeaderCell>
+          <Table.HeaderCell>Task</Table.HeaderCell>
+          <Table.HeaderCell>Deadline</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          <Table.HeaderCell>AI Navigation</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {tasksForToday.map((task) => (
+          <Table.Row key={task.id}>
+            <Table.Cell className='project-name'>
+              {currentUser.projects.filter((p) => p.id === task.project_id)[0].project_name}
+            </Table.Cell>
+            <Table.Cell>{task.task_name}</Table.Cell>
+            <Table.Cell>
+              <DatePicker
+                selected={new Date(taskData[task.id].end_date)}
+                onChange={(date) => handleEndDateChange(task.id, date)}
+                dateFormat="eee, dd MMM yyyy"
+              />
+            </Table.Cell>
+            <Table.Cell>
+              <select
+                value={taskData[task.id].status}
+                onChange={(e) => handleStatusChange(task.id, e)}
+              >
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Complete">Complete</option>
+              </select>
+            </Table.Cell>
+            <Table.Cell style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+              <img
+                className="Modal-logo"
+                src={Logo}
+                alt='PriorityPilot_Logo'
+                onClick={() => setShowAiModal({ status: true, task: task })}
+              />
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  </>
+) : (
+  <h2>You are doing great! No tasks are due today!</h2>
+)}
+
         </div>
       </div>
     )  

@@ -15,7 +15,7 @@ function RegistrationForm({ register }) {
   const initialState = {
     first_name: "",
     last_name: "",
-    team: "",
+    department: "",
     role: "",
     email: "",
     password: "",
@@ -24,6 +24,7 @@ function RegistrationForm({ register }) {
   
   const [formData, setFormData] = useState(initialState)
   const [passwordsNotMatch, setPasswordsNotMatch] = useState(false)
+  const [passwordLengthValid, setPasswordLengthValid] = useState(true); // State for password length validation
   
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -32,6 +33,15 @@ function RegistrationForm({ register }) {
       [name]: value
     }))
   }
+
+  const handlePasswordBlur = () => {
+    // Check if the password meets the minimum length requirement
+    if (formData.password.length >= 8) {
+      setPasswordLengthValid(true);
+    } else {
+      setPasswordLengthValid(false);
+    }
+  };
 
   //Takes current data (if valid) and passes it to register function, navigates to homepage.
   const handleSubmit = async (e) => {
@@ -66,13 +76,13 @@ function RegistrationForm({ register }) {
             name="first_name"/>
           <Form.Field
             required
-            id='form-input-control-team'
+            id='form-input-control-department'
             control={Input}
-            label='Team'
+            label='Department'
             placeholder='Your Department'
-            value={formData.team}
+            value={formData.department}
             onChange={handleInputChange}
-            name="team"/>
+            name="department"/>
         </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field
@@ -127,7 +137,9 @@ function RegistrationForm({ register }) {
           value={formData.password}
           onChange={handleInputChange}
           minLength="8"
-          placeholder='Password'/>
+          placeholder='Password'
+          onBlur={handlePasswordBlur} // Add onBlur event handler
+          />
         <Form.Field
           required
           minLength="8"
@@ -141,6 +153,9 @@ function RegistrationForm({ register }) {
           placeholder='Enter Password Again..'/>
 
         </Form.Group>  
+        {!passwordLengthValid && (
+          <span className="error-msg">Password must be at least 8 characters long!</span>
+        )}
         {passwordsNotMatch && <span className='error-msg'>Entered passwords don't match!</span>}
         <Form.Group widths='equal'>
           <Form.Field>
@@ -163,3 +178,4 @@ function RegistrationForm({ register }) {
 }
 
 export default RegistrationForm
+

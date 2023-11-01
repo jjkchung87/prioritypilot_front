@@ -79,7 +79,7 @@ function PollingCountDown() {
     <>
       {showPollModal && <Modal closeModal={()=>setShowPollModal(false)} timer={timer} resetTimer={resetTimer}/>}
       <div className="table">
-        <Header>AI - Polling Count Down</Header>
+        <Header>Your Next Status Update ...</Header>
         <div className="time">
           {timer}
         </div>

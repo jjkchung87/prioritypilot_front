@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import NewProjectForm from './NewProjectForm'
 import { useState, useContext } from 'react'
 import { UserContext } from '../context/UserContext'
-import NavLogo from '../assets/nav_logo.png'
+import NavLogo from '../assets/nav_logo_white.png'
 import { Icon } from 'semantic-ui-react'
 
 
@@ -18,14 +18,14 @@ function MainNavbar({ logout }) {
         </Link>
         {currentUser ? 
         <div className='registered'>
-          <Button content="+Add New Project" onClick={()=>setShowForm(true)}/>
-          <Icon name='bell' size="big"/>
+          <Button className="new-project-button primary" content="+ Add New Project" onClick={()=>setShowForm(true)}/>
+          {/* <Icon name='bell' size="small"/> */}
           <div>{currentUser.first_name} {currentUser.last_name}</div>
           <Image src={currentUser.profile_img} size='tiny' circular />
-          <Link to={'/'} onClick={logout}>Logout <Icon name="logout"/></Link>
+          <Link to={'/'} onClick={logout} style={{color: 'white'}}>Logout <Icon name="logout"/></Link>
         </div> : 
         <div className='not-registered'>
-          <Link to="/register">Register</Link>
+          <Link to="/register" style={{color: 'white'}}>Register</Link>
         </div> }
     
         {showForm && <NewProjectForm setShowForm={setShowForm}/>}
