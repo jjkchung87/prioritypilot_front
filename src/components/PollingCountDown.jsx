@@ -9,16 +9,11 @@ function PollingCountDown() {
   const [showPollModal, setShowPollModal] = useState(false);
  
   // The state for the timer
-  const [timer, setTimer] = useState('00:00:00');
-  // The Poll Modal State 
+  const [timer, setTimer] = useState('');
 
   useEffect(() => {
-    if (timer === '23:51:52') {
-      if (currentUser) {
-        setShowPollModal(true)
-      } else {
-        setTimer('00:00:10')
-      }
+    if (timer === '00:00:00') {
+      if (currentUser) setShowPollModal(true)
     }  
   }, [timer, currentUser])
 
@@ -43,10 +38,9 @@ function PollingCountDown() {
       }
   }
   const clearTimer = (e) => {   
-      setTimer('00:00:00');
       if (Ref.current) clearInterval(Ref.current);
       const id = setInterval(() => {
-          startTimer(e);
+        startTimer(e);
       }, 1000)
       Ref.current = id;
   }
