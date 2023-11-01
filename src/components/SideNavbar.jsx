@@ -1,18 +1,19 @@
-import {Header, Icon} from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { useState, useContext, useEffect} from 'react'
 import TeamMember from './TeamMember';
 import { UserContext } from '../context/UserContext'
 import { ProjectContext } from '../context/ProjectContext'
 import UserApi from '../api'
 
-function SideNavbar({ logout }) {
+function SideNavbar({userTasks}) {
   const { currentUser } = useContext(UserContext)
   const { currentProject } = useContext(ProjectContext)
 
   const [teamView, setTeamView] = useState("Project Team")
   const [teamMemberCards, setTeamMemberCards] = useState([])
 
-  useEffect(function fetchUsersWhenMounted() {
+  useEffect(() => {
+    const controller = new AbortController()
     async function fetchUsers() {
       let users = null;
       try {
@@ -33,14 +34,17 @@ function SideNavbar({ logout }) {
       } 
     }
     fetchUsers()
+    return () => {
+      controller.abort()
+    }
   }
-  ,[teamView, currentProject])
+  ,[teamView, currentProject, userTasks])
   
   const handleTeamViewChange = (e) => {
     setTeamView(e.target.value)
   }
 
-
+ 
   return (
     <div className="wrapper sidebar" >
       <div className="team-members" style={{textAlign:"center"}}>

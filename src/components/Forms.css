@@ -219,21 +219,59 @@ a:hover {
 
 /* Modal.css */
 .table-style {
-border: 1px solid black;
-border-collapse: collapse;
-width: 100%;
+  width: 90%; 
+  margin: 15px auto;
+  box-shadow: 2px 2px 5px rgb(75, 75, 75);
+  background-color: rgb(243, 243, 243);
+  border-collapse: collapse;
 }
 
-.table-style th, .table-style td {
-border: 1px solid black;
-padding: 8px;
-text-align: left;
+tr:nth-of-type(2) {
+  background-color:rgb(230, 230, 230)
+}
+
+thead td{
+  text-align: center;
+  font-size: 1.4rem;
+  background-color:#0E578B;
+  color: white;
+  padding: 3px 15px;
+}
+
+tbody td {
+  height: 5rem;
+  padding: 15px 8px;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.poll-task-name {
+  font-weight: 700;
+}
+.update-time-header{
+  color: rgb(54, 80, 143);
+  text-align: center;
+}
+.poll-image {
+  text-align: center;
+  width: 70px;
+}
+
+.poll-select, .poll-date {
+  height: 2rem;
+	text-align: center;
+	border-radius: 10px !important;
+	border: none !important;
+	box-shadow: 2px 2px 5px grey !important;
+	text-transform: capitalize;
+  cursor: pointer;
+}
+
+.poll-select:hover, .poll-date:hover {
+  background-color: rgb(246, 246, 246)
 }
 
 .close-window {
   float: right;
 }
 
-.ai-recommendation {
-  border: blue solid 1px !important;
-}

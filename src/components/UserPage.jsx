@@ -47,7 +47,7 @@ function UserPage({ logout }) {
     <>
     {isLoading ? <div>Loading</div> :
     <div className="user-page">
-      <SideNavbar />
+      <SideNavbar tasks={userTasks} />
       <div className='user-dashboard'>
         <div className='status-tables'>
           <TodaysProgressTable tasks={userTasks}/>

@@ -4,6 +4,7 @@ import "./TeamMember.css"
 const TeamMember = ({member}) => {
   const [nudged, setNudged] = useState(false)
 
+  console.log(member)
   //Last Update calculations
   const targetDate = new Date(member.latest_update); //date object
   const today = new Date(); // date object
@@ -29,13 +30,13 @@ const TeamMember = ({member}) => {
         <div>{member.role}</div>
         <div className="progress-bar">
           <div className="completed-tasks" style={{ width: `${completedProgress}%`, textAlign:"center" }}>
-            {member.total_task_count > 0 ? member.completed_task_count : ""}
+            {member.completed_task_count > 0 ? member.completed_task_count : ''}
           </div>
           <div className="in-progress-tasks" style={{ width: `${inProgressProgress}%`, textAlign:"center" }}>
-          {member.total_task_count > 0 ? member.in_progress_task_count: ""}
+          {member.in_progress_task_count > 0 ? member.in_progress_task_count : ''}
           </div>
           <div className="not-started-tasks" style={{ width: `${notStartedProgress}%`, textAlign:"center" }}>
-          {member.total_task_count > 0 ? member.not_started_task_count: ""}
+          {member.not_started_task_count > 0 ? member.not_started_task_count : ''}
           </div>
         </div>
         <div className="last-update">

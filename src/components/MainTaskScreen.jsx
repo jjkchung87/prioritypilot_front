@@ -2,7 +2,7 @@ import { Tab, Header } from 'semantic-ui-react'
 import TaskCard from './TaskCard'
 import NewTaskForm from './NewTaskForm'
 import { useContext, useEffect, useState } from 'react'
-import { ProjectContext, ProjectsContext } from '../context/ProjectContext'
+import { ProjectContext } from '../context/ProjectContext'
 import {v4 as uuid} from 'uuid';
 import Carousel from 'react-grid-carousel'
 

@@ -12,8 +12,9 @@ function PollingCountDown() {
   const [timer, setTimer] = useState('');
 
   useEffect(() => {
-    if (timer === '00:00:00') {
+    if (timer === '23:15:19') {
       if (currentUser) setShowPollModal(true)
+      clearTimer()
     }  
   }, [timer, currentUser])
 
@@ -71,7 +72,7 @@ function PollingCountDown() {
   
   return (
     <>
-      {showPollModal && <Modal closeModal={()=>setShowPollModal(false)} timer={timer} resetTimer={resetTimer}/>}
+      {showPollModal && <Modal closeModal={()=>setShowPollModal(false)} resetTimer={resetTimer}/>}
       <div className="table">
         <Header>Your Next Status Update ...</Header>
         <div className="time">
