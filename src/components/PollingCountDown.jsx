@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext";
 function PollingCountDown() {
   const {currentUser} = useContext(UserContext)
   const Ref = useRef(null);
-  const [showPollModal, setShowPollModal] = useState(false);
+  const [showPollModal, setShowPollModal] = useState(true);
  
   // The state for the timer
   const [timer, setTimer] = useState('');
